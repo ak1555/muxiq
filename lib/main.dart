@@ -10,7 +10,6 @@
 //   );
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:muxiq/page1.dart';
 import 'package:muxiq/page2.dart';
@@ -28,15 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bottom NavBar Demo',
-      theme: ThemeData(
-        primaryColor: const Color(0xff2F8D46),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home:  HomePage(),
     );
   }
 }
@@ -61,24 +52,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
- 
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255) ,
-      // appBar: AppBar(
-      //   leading: Icon(
-      //     Icons.menu,
-      //     color: Theme.of(context).primaryColor,
-      //   ),
-      //   title: Text(
-      //     "MUXIQ",
-      //     style: TextStyle(
-      //       color: Theme.of(context).primaryColor,
-      //       fontSize: 25,
-      //       fontWeight: FontWeight.w600,
-      //     ),
-      //   ),
-      //   centerTitle: true,
-      //   backgroundColor: Colors.white,
-      // ),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: pages[pageIndex],
       bottomNavigationBar: buildMyNavBar(context),
     );
@@ -86,17 +60,16 @@ class _HomePageState extends State<HomePage> {
 
   Container buildMyNavBar(BuildContext context) {
     return Container(
-      height: 60,
-      margin: EdgeInsets.only(bottom: 5,left: 10,right: 10),
+      height: 62,
+      margin: EdgeInsets.only(bottom: 1.5, left: 12, right: 12),
       decoration: BoxDecoration(
-        // color: Theme.of(context).primaryColor,
-        // borderRadius: const BorderRadius.only(
-        //   topLeft: Radius.circular(20),
-        //   topRight: Radius.circular(20),
-        // ),
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(100)
-      ),
+          // color: Theme.of(context).primaryColor,
+          // borderRadius: const BorderRadius.only(
+          //   topLeft: Radius.circular(20),
+          //   topRight: Radius.circular(20),
+          // ),
+          border: Border.all(color: Colors.grey.shade800),
+          borderRadius: BorderRadius.circular(100)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -110,34 +83,29 @@ class _HomePageState extends State<HomePage> {
             icon: pageIndex == 0
                 ? const Icon(
                     Icons.home_filled,
-                    // color: Colors.white,
-                    size: 35,
+                    color:const Color.fromARGB(255, 73, 73, 73),
+                    size: 33,
                   )
                 : const Icon(
                     Icons.home_outlined,
                     // color: Colors.white,
-                    size: 35,
+                     color:Colors.grey,
+                    size: 33,
                   ),
           ),
-          IconButton(
-            enableFeedback: false,
-            onPressed: () {
-              setState(() {
-                pageIndex = 1;
-              });
-            },
-            icon: pageIndex == 1
-                ? const Icon(
-                    Icons.work_rounded,
-                    // color: Colors.white,
-                    size: 35,
-                  )
-                : const Icon(
-                    Icons.work_outline_outlined,
-                    // color: Colors.white,
-                    size: 35,
-                  ),
-          ),
+          MaterialButton(
+              enableFeedback: false,
+              onPressed: () {
+                setState(() {
+                  pageIndex = 1;
+                });
+              },
+              child: Image(height: 34,width: 34,color: const Color.fromARGB(255, 73, 73, 73),
+                  image: pageIndex == 1
+                      ? AssetImage("./images/music-logo-png-2350.png")
+                      : AssetImage("./images/music.png"))
+          
+              ),
           IconButton(
             enableFeedback: false,
             onPressed: () {
@@ -148,13 +116,15 @@ class _HomePageState extends State<HomePage> {
             icon: pageIndex == 2
                 ? const Icon(
                     Icons.favorite,
-                    // color: Colors.white,
-                    size: 35,
+                  //  color: const Color.fromARGB(255, 73, 73, 73),
+                  color: Color.fromARGB(255, 228, 93, 83),
+                    size: 33,
                   )
                 : const Icon(
                     Icons.favorite_border,
-                    // color: Colors.white,
-                    size: 35,
+                    // color: const Color.fromARGB(255, 73, 73, 73),
+                     color:Colors.grey,
+                    size: 33,
                   ),
           ),
           IconButton(
@@ -167,13 +137,14 @@ class _HomePageState extends State<HomePage> {
             icon: pageIndex == 3
                 ? const Icon(
                     Icons.person,
-                    // color: Colors.white,
-                    size: 35,
+                   color: const Color.fromARGB(255, 73, 73, 73),
+                    size: 33,
                   )
                 : const Icon(
                     Icons.person_outline,
-                    // color: Colors.white,
-                    size: 35,
+                  //  color: const Color.fromARGB(255, 73, 73, 73),
+                  color:Colors.grey,
+                    size: 33,
                   ),
           ),
         ],
@@ -181,4 +152,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
