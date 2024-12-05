@@ -11,13 +11,14 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:muxiq/LoginPage.dart';
 import 'package:muxiq/page1.dart';
 import 'package:muxiq/page2.dart';
 import 'package:muxiq/page3.dart';
 import 'package:muxiq/page4.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
