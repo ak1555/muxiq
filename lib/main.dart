@@ -1,15 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:muxiq/HomePage.dart';
-// import 'package:muxiq/LoginPage.dart';
-
-// void main() {
-//   runApp(
-//     MaterialApp(
-//       home: HomePage(),
-//     )
-//   );
-// }
-
 import 'package:flutter/material.dart';
 import 'package:muxiq/LoginPage.dart';
 import 'package:muxiq/page1.dart';
@@ -62,14 +50,14 @@ class _HomePageState extends State<HomePage> {
   Container buildMyNavBar(BuildContext context) {
     return Container(
       height: 62,
-      margin: EdgeInsets.only(bottom: 1.5, left: 12, right: 12),
+      margin: EdgeInsets.only(bottom: 5, left: 12, right: 12),
       decoration: BoxDecoration(
           // color: Theme.of(context).primaryColor,
           // borderRadius: const BorderRadius.only(
           //   topLeft: Radius.circular(20),
           //   topRight: Radius.circular(20),
           // ),
-          border: Border.all(color: Colors.grey.shade800),
+          border: Border.all(color: Colors.grey.shade700,width: 2),
           borderRadius: BorderRadius.circular(100)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -90,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 : const Icon(
                     Icons.home_outlined,
                     // color: Colors.white,
-                     color:Colors.grey,
+                     color:Color.fromARGB(255, 117, 117, 117),
                     size: 33,
                   ),
           ),
@@ -124,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                 : const Icon(
                     Icons.favorite_border,
                     // color: const Color.fromARGB(255, 73, 73, 73),
-                     color:Colors.grey,
+                    color:const Color.fromARGB(255, 73, 73, 73),
                     size: 33,
                   ),
           ),
@@ -144,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                 : const Icon(
                     Icons.person_outline,
                   //  color: const Color.fromARGB(255, 73, 73, 73),
-                  color:Colors.grey,
+                   color:const Color.fromARGB(255, 73, 73, 73),
                     size: 33,
                   ),
           ),
@@ -153,3 +141,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+
+
+
+
+
