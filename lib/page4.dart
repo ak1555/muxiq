@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:muxiq/Provider/providerfile.dart';
+import 'package:provider/provider.dart';
 
-class Page4 extends StatelessWidget {
-  const Page4({Key? key}) : super(key: key);
 
+class Page4 extends StatefulWidget {
+  const Page4({super.key});
+
+  @override
+  State<Page4> createState() => _Page4State();
+}
+
+class _Page4State extends State<Page4> {
+late  bool BorW;
+void d(){
+  //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+  BorW = Provider.of<ProviderFile>(context,listen: false).LS[0];
+  print(BorW);
+}
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+d();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,6 +78,9 @@ class Page4 extends StatelessWidget {
                   border: Border.all(),
                   borderRadius: BorderRadius.circular(5)
                  ),
+                 child: IconButton(onPressed: () {
+                   Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+                 }, icon: Icon(Icons.change_circle)),
                 ),
                 Container(
                    decoration: BoxDecoration(

@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:muxiq/LoginPage.dart';
+import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/page1.dart';
 import 'package:muxiq/page2.dart';
 import 'package:muxiq/page3.dart';
 import 'package:muxiq/page4.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home:  HomePage(),
+  runApp(
+    // MyApp()
+    ChangeNotifierProvider(create: (context) =>ProviderFile() ,
+    child: MaterialApp(
+      home: HomePage(),
+    )
+    )
     );
-  }
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: MyApp(),
+//     );
+//   }
+// }
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,6 +38,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+
   int pageIndex = 0;
 
   final pages = [
