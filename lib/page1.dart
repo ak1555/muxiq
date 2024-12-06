@@ -1,16 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:muxiq/Provider/providerfile.dart';
+import 'package:provider/provider.dart';
 
-class Page1 extends StatelessWidget {
-  const Page1({Key? key}) : super(key: key);
+class Page1 extends StatefulWidget {
+  const Page1({super.key});
 
+  @override
+  State<Page1> createState() => _Page1State();
+}
+
+class _Page1State extends State<Page1> {
+late  bool BorW;
+void d(){
+  //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+  BorW = Provider.of<ProviderFile>(context,listen: false).LS[0];
+  print(BorW);
+}
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+d();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.grey.shade100, Colors.grey.shade50])),
+             gradient: LinearGradient(
+              colors: BorW
+                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
+                  : [Colors.grey.shade100, Colors.grey.shade50])
+
+              ),
       child: ListView(
         children: [
           Container(
@@ -43,7 +67,8 @@ class Page1 extends StatelessWidget {
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade800),
+                          color: BorW ? Colors.grey.shade200 : Colors.grey.shade800
+                          ),
                     ),
                   ],
                 ),
@@ -58,7 +83,7 @@ class Page1 extends StatelessWidget {
                       child: Icon(
                         Icons.now_widgets_outlined,
                         size: 25,
-                        color: Colors.grey.shade600,
+                        color: BorW ? Colors.grey.shade200 : Colors.grey.shade600
                       ),
                     ),
                     Container(
@@ -70,7 +95,7 @@ class Page1 extends StatelessWidget {
                       child: Icon(
                         Icons.more_vert,
                         size: 24,
-                        color: Colors.grey.shade600,
+                         color: BorW ? Colors.grey.shade200 : Colors.grey.shade600
                       ),
                     ),
                   ],
@@ -91,16 +116,16 @@ class Page1 extends StatelessWidget {
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(100),
                 // gradient: LinearGradient(colors: [Colors.grey.shade200,Colors.grey.shade50,Colors.grey.shade50])
-                color: Colors.grey.shade300),
+                color: BorW ? Colors.grey.shade400 : Colors.grey.shade300 ),
             child: Row(
               children: [
                 Expanded(
-                    child: TextField(style: TextStyle(color: Colors.blueGrey.shade800),
+                    child: TextField(style: TextStyle( color: BorW ? Colors.grey.shade900 :  Colors.blueGrey.shade800),
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Search your song...",
                       hintStyle: TextStyle(
-                        color: Colors.grey.shade600,
+                         color: BorW ? Colors.grey.shade600 : Colors.grey.shade600,
                         fontSize: 18,
                       )),
                 )),
@@ -122,7 +147,7 @@ class Page1 extends StatelessWidget {
           ),
           Container(
               margin: EdgeInsets.only(left: 20, right: 15),
-              child: Text("All Songs")),
+              child: Text("All Songs",style: TextStyle(  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800),)),
           SizedBox(
             height: 2,
           ),
@@ -134,7 +159,7 @@ class Page1 extends StatelessWidget {
           Container(
             height: 90,
             width: double.infinity,
-            decoration: BoxDecoration(border: Border.all()),
+            decoration: BoxDecoration(border: Border.all(color:  BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
           )
         ],
       ),

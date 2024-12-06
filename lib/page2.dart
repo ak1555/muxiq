@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/main.dart';
+import 'package:provider/provider.dart';
 
 class Page2 extends StatefulWidget {
   const Page2({super.key});
@@ -15,13 +17,29 @@ class _Page2State extends State<Page2> {
   bool favorite = false;
   bool pause = false;
 
+  late bool BorW;
+  void d() {
+    //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+    BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
+    print(BorW);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    d();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       // color: const Color.fromARGB(255, 255, 255, 255),
       decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.grey.shade100, Colors.grey.shade50])),
+              colors: BorW
+                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
+                  : [Colors.grey.shade100, Colors.grey.shade50])),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: ListView(
@@ -32,7 +50,10 @@ class _Page2State extends State<Page2> {
             child: Center(
               child: Text(
                 "PLAYLIST",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 19,
+                    color: BorW ? Colors.grey.shade200 : Colors.black),
               ),
               // child: Text(
               //   "Now Playing",
@@ -62,13 +83,18 @@ class _Page2State extends State<Page2> {
                           "Play",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade800,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800,
                               fontSize: 15),
                         )
                       : Text(
                           "Play",
                           style: TextStyle(
-                              color: Colors.grey.shade600, fontSize: 13),
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade600,
+                              fontSize: 13),
                         ),
                 ),
                 MaterialButton(
@@ -83,12 +109,17 @@ class _Page2State extends State<Page2> {
                       ? Text("Lyrics",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade800,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800,
                               fontSize: 15))
                       : Text(
                           "Lyrics",
                           style: TextStyle(
-                              color: Colors.grey.shade600, fontSize: 13),
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade600,
+                              fontSize: 13),
                         ),
                 )
               ],
@@ -134,30 +165,30 @@ class _Page2State extends State<Page2> {
                         alignment: Alignment.center,
                         child: Stack(
                           children: [
-                          pause?  Lottie.asset('./lottie/ll.json'):Container(
-                            
-                          ),
-
+                            pause
+                                ? Lottie.asset('./lottie/ll.json')
+                                : Container(),
                             Positioned(
                               top: 25,
                               left: 25,
-                              child:  Container(
-                          height: 160,
-                          width: 160,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(150),
-                            color: Colors.white,
-                          ),
-                          child: ClipRRect(
-                          borderRadius: BorderRadius.circular(150),
-                          child: Image.asset(
-                            "./images/music-logo-png-2350.png",
-                            fit: BoxFit.cover,
-                            color: Colors.grey.shade300,
-                            colorBlendMode: BlendMode.modulate,
-                          ),
-                        ),
-                        ),)
+                              child: Container(
+                                height: 160,
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(150),
+                                  color: Colors.white,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(150),
+                                  child: Image.asset(
+                                    "./images/music-logo-png-2350.png",
+                                    fit: BoxFit.cover,
+                                    color: Colors.grey.shade300,
+                                    colorBlendMode: BlendMode.modulate,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                         // child: Container(
@@ -195,7 +226,12 @@ class _Page2State extends State<Page2> {
             margin: EdgeInsets.only(left: 24, right: 24),
             child: Row(
               children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.share_outlined)),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.share_outlined,
+                      color: BorW ? Colors.grey.shade200 : Colors.grey.shade900,
+                    )),
                 Expanded(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -203,9 +239,19 @@ class _Page2State extends State<Page2> {
                     Center(
                       child: Text("Song Name",
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade900,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600)),
                     ),
-                    Text("playlist")
+                    Text(
+                      "playlist",
+                      style: TextStyle(
+                        color:
+                            BorW ? Colors.grey.shade200 : Colors.grey.shade900,
+                      ),
+                    )
                   ],
                 )),
                 IconButton(
@@ -219,7 +265,12 @@ class _Page2State extends State<Page2> {
                             Icons.favorite,
                             color: Colors.red,
                           )
-                        : Icon(Icons.favorite_border)),
+                        : Icon(
+                            Icons.favorite_border,
+                            color: BorW
+                                ? Colors.grey.shade200
+                                : Colors.grey.shade900,
+                          )),
               ],
             ),
           ),
@@ -235,6 +286,7 @@ class _Page2State extends State<Page2> {
                     Icon(
                       Icons.play_arrow,
                       size: 17,
+                      color: BorW ? Colors.grey.shade200 : Colors.grey.shade900,
                     ),
                     SizedBox(
                       width: 2.5,
@@ -243,7 +295,8 @@ class _Page2State extends State<Page2> {
                       child: Container(
                         height: 1.5,
                         // width: double.infinity,
-                        color: Colors.black,
+                        color:
+                            BorW ? Colors.grey.shade200 : Colors.grey.shade900,
                       ),
                     ),
                   ],
@@ -251,7 +304,24 @@ class _Page2State extends State<Page2> {
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("    0:00"), Text("04:30")],
+                    children: [
+                      Text(
+                        "    0:00",
+                        style: TextStyle(
+                          color: BorW
+                              ? Colors.grey.shade200
+                              : Colors.grey.shade900,
+                        ),
+                      ),
+                      Text(
+                        "04:30",
+                        style: TextStyle(
+                          color: BorW
+                              ? Colors.grey.shade200
+                              : Colors.grey.shade900,
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],
@@ -269,13 +339,14 @@ class _Page2State extends State<Page2> {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.shuffle_rounded, size: 32),
+                  icon: Icon(Icons.shuffle_rounded, size: 32, color:  BorW?Colors.grey.shade200:Colors.grey.shade900, ),
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
                     Icons.skip_previous_outlined,
                     size: 32,
+                     color:  BorW?Colors.grey.shade200:Colors.grey.shade900,
                   ),
                 ),
                 IconButton(
@@ -288,19 +359,21 @@ class _Page2State extends State<Page2> {
                       ? Icon(
                           Icons.pause_circle_outline_rounded,
                           size: 52,
+                           color:  BorW?Colors.grey.shade200:Colors.grey.shade900,
                         )
                       : Icon(
                           Icons.play_circle_outline_rounded,
                           size: 52,
+                           color:  BorW?Colors.grey.shade200:Colors.grey.shade900,
                         ),
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.skip_next_outlined, size: 32),
+                  icon: Icon(Icons.skip_next_outlined, size: 32, color:  BorW?Colors.grey.shade200:Colors.grey.shade900,),
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.repeat, size: 32),
+                  icon: Icon(Icons.repeat, size: 32, color:  BorW?Colors.grey.shade200:Colors.grey.shade900,),
                 )
               ],
             ),

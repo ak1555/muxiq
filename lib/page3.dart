@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:muxiq/Provider/providerfile.dart';
+import 'package:provider/provider.dart';
 
-class Page3 extends StatelessWidget {
-  const Page3({Key? key}) : super(key: key);
+class Page3 extends StatefulWidget {
+  const Page3({super.key});
 
+  @override
+  State<Page3> createState() => _Page3State();
+}
+
+class _Page3State extends State<Page3> {
+late  bool BorW;
+void d(){
+  //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+  BorW = Provider.of<ProviderFile>(context,listen: false).LS[0];
+  print(BorW);
+}
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+d();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
       // color:  const Color.fromARGB(255, 255, 255, 255),
  decoration: BoxDecoration(
-  gradient: LinearGradient(colors: [Colors.grey.shade200,Colors.grey.shade100])
+ gradient: LinearGradient(
+              colors: BorW
+                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
+                  : [Colors.grey.shade100, Colors.grey.shade50])
  ),
       child: Column(
         children: [
@@ -31,14 +53,14 @@ class Page3 extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade800),
+                          color: BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                       ),
                       SizedBox(
                         height: 3,
                       ),
                       Text(
                         "Playlist Songs",
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        style: TextStyle(fontSize: 12,  color: BorW ? Colors.grey.shade200 : Colors.grey),
                       )
                     ],
                   ),
@@ -48,7 +70,7 @@ class Page3 extends StatelessWidget {
                   width: 38,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: Colors.grey)),
+                      border: Border.all(color: BorW ? Colors.grey.shade200 : Colors.grey)),
                   child: Icon(
                     Icons.favorite,
                     color: Colors.redAccent,
@@ -60,7 +82,11 @@ class Page3 extends StatelessWidget {
           ),
           Expanded(
               child: Container(
-            color: Colors.grey.shade100,
+            // color: Colors.grey.shade100,
+            decoration: BoxDecoration(gradient: LinearGradient(
+              colors: BorW
+                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
+                  : [Colors.grey.shade100, Colors.grey.shade50])),
             child: Column(
               children: [
                 Container(
@@ -79,13 +105,14 @@ class Page3 extends StatelessWidget {
                         height: 35,
                         width: 35,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade400,
+                          // color: Colors.grey.shade400,
+                          color: BorW ? Colors.grey.shade600 : Colors.grey.shade400,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           "1",
-                          style: TextStyle(color: Colors.grey.shade800),
+                          style: TextStyle(color: BorW ? Colors.grey.shade100 : Colors.grey.shade800),
                         ),
                       ),
                       SizedBox(
@@ -99,12 +126,12 @@ class Page3 extends StatelessWidget {
                             Text(
                               "BELEIVER",
                               style: TextStyle(
-                                  color: Colors.grey.shade900,
+                                 color: BorW ? Colors.grey.shade200 : Colors.grey.shade900,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "Justin biever",
-                              style: TextStyle(color: Colors.grey.shade800),
+                              style: TextStyle(color: BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                             )
                           ],
                         ),
@@ -140,13 +167,14 @@ class Page3 extends StatelessWidget {
                         height: 35,
                         width: 35,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade400,
+                          // color: Colors.grey.shade400,
+                          color: BorW ? Colors.grey.shade600 : Colors.grey.shade400,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           "2",
-                          style: TextStyle(color: Colors.grey.shade800),
+                          style: TextStyle(color: BorW ? Colors.grey.shade100 : Colors.grey.shade800),
                         ),
                       ),
                       SizedBox(
@@ -160,12 +188,12 @@ class Page3 extends StatelessWidget {
                             Text(
                               "SHAPE OF YOU",
                               style: TextStyle(
-                                  color: Colors.grey.shade900,
+                                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade900,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "Justin biever",
-                              style: TextStyle(color: Colors.grey.shade800),
+                              style: TextStyle(color: BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                             )
                           ],
                         ),
