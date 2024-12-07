@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:muxiq/LoginPage.dart';
 import 'package:muxiq/Provider/providerfile.dart';
+import 'package:muxiq/_testfile.dart';
 // import 'package:muxiq/_testfile.dart';
 import 'package:muxiq/page1.dart';
 import 'package:muxiq/page2.dart';

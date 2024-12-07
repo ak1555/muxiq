@@ -120,7 +120,7 @@ setState(() {
             height: 35,
           ),
           Container(
-            height: 350,
+            height: 365,
             width: double.infinity,
             margin: EdgeInsets.only(left: 11, right: 11),
             child: GridView(
@@ -405,7 +405,18 @@ if(_bio.text==''){
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.only(bottom: 1),
                             alignment: Alignment.bottomCenter),
-                        onPressed: () {},
+                        onPressed: () {
+                           showDialog(context: context, builder: (context) {
+                            return AlertDialog(
+                              title: Container(
+                                height: 150,
+                                width: 250,
+                                
+                                // alignment: Alignment.center,
+                                child: Text("Currently you can't Access this Feature")),
+                            );
+                          },);
+                        },
                         child: Text(
                           "Share",
                           style: TextStyle(
@@ -420,7 +431,18 @@ if(_bio.text==''){
                           style: IconButton.styleFrom(
                               padding: EdgeInsets.only(top: 1),
                               alignment: Alignment.topCenter),
-                          onPressed: () {},
+                          onPressed: () {
+                             showDialog(context: context, builder: (context) {
+                            return AlertDialog(
+                              title: Container(
+                                height: 150,
+                                width: 250,
+                                
+                                // alignment: Alignment.center,
+                                child: Text("Currently you can't Access this Feature")),
+                            );
+                          },);
+                          },
                           icon: Icon(
                             Icons.switch_access_shortcut_add_outlined,
                             color: BorW
@@ -496,31 +518,6 @@ if(_bio.text==''){
           SizedBox(
             height: 50,
           ),
-          // Container(
-          //   height: 55,
-          //   width: double.infinity,
-          //   margin: EdgeInsets.only(left: 15, right: 15),
-          //   decoration: BoxDecoration(
-          //       // color: Colors.grey[800],
-          //       color: BorW ? Colors.grey.shade600 : Colors.grey[800],
-          //       border: Border.all(color: Colors.grey),
-          //       borderRadius: BorderRadius.circular(100),
-          //       boxShadow: [
-          //         BoxShadow(
-          //             blurRadius: 3, offset: Offset(0, 4), color: Colors.grey)
-          //       ]),
-          //   child: MaterialButton(
-          //     onPressed: () {},
-          //     child: Text(
-          //       "LOGOUT",
-          //       style: TextStyle(
-          //           // color: Colors.white,
-          //           color: BorW ? Colors.grey.shade100 : Colors.grey.shade50,
-          //           fontWeight: FontWeight.bold,
-          //           fontSize: 18),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
