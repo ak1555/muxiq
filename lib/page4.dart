@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/main.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,34 @@ class Page4 extends StatefulWidget {
 }
 
 class _Page4State extends State<Page4> {
+TextEditingController _username = TextEditingController();
+TextEditingController _bio = TextEditingController();
+var hive = Hive.box("mybox");
   late bool BorW;
+   bool uname=false;
+   bool bio=false;
+  String? username ;
+  String? Bio;
+
+
+void getusername(){
+  if(hive.get(1)!=null){
+setState(() {
+  username=hive.get(1);
+  uname=true;
+});
+  }
+  if(hive.get(2)!=null){
+    setState(() {
+      Bio = hive.get(2);
+      bio =true;
+    });
+  }
+  print(hive.get(1));
+  print(hive.get(2));
+}
+
+
   void d() {
     //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
@@ -23,6 +51,7 @@ class _Page4State extends State<Page4> {
     // TODO: implement initState
     super.initState();
     d();
+    getusername();
   }
 
   @override
@@ -61,7 +90,12 @@ class _Page4State extends State<Page4> {
           Container(
               width: double.infinity,
               alignment: Alignment.center,
-              child: Text(
+              child:uname? Text(username!,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                ),
+              ):Text(
                 "User Name",
                 style: TextStyle(
                   fontSize: 20,
@@ -71,7 +105,11 @@ class _Page4State extends State<Page4> {
               Container(
               width: double.infinity,
               alignment: Alignment.center,
-              child: Text(
+              child:bio? Text(Bio!,style: TextStyle(
+                 fontSize: 12,
+                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+              ),)
+              :Text(
                 "Bio",
                 style: TextStyle(
                   fontSize: 12,
@@ -101,7 +139,93 @@ class _Page4State extends State<Page4> {
                         style: TextButton.styleFrom(
                             padding: EdgeInsets.only(bottom: 1),
                             alignment: Alignment.bottomCenter),
-                        onPressed: () {},
+                        onPressed: () {
+                           showDialog(context: context, builder: (context) {
+                            return AlertDialog(
+                              title: Container(
+                                height: 200,
+                                width: 250,
+                                child:Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(left: 10,right: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(15)
+                                      ),
+                                      child: Expanded(child: TextField(
+                                        controller: _username,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,hintText: "Enter your Name"
+                                          ,hintStyle: TextStyle(color: Colors.grey)),
+                                        )),
+                                    ),
+
+                                       Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(left: 10,right: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(15)
+                                      ),
+                                      child: Expanded(child: TextField(
+                                        controller: _bio,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,hintText: "Enter your bio"
+                                          ,hintStyle: TextStyle(color: Colors.grey)),
+                                        )),
+                                    ),
+
+                                  ],
+                                ) ),
+                                actions: [
+                                  Container(
+                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                   gradient: LinearGradient(
+              colors: BorW
+                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
+                  : [Colors.grey.shade300, Colors.grey.shade200])
+                                 ),
+                                    child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent,shadowColor: Colors.transparent,
+                                      shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      padding: EdgeInsets.only(left: 35,right: 35,top: 15,bottom: 15),
+                                    ),
+                                    onPressed: () {
+
+
+                                    // setUsername();
+
+  if(_username.text==''){
+   print("name null");
+}else{
+
+   hive.put(1, _username.text);
+}
+
+if(_bio.text==''){
+  print("bio null");
+}else{
+  
+      hive.put(2, _bio.text);
+}
+
+
+
+                                     }, child: Text("set",style: TextStyle(
+                                      color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                                    fontWeight: FontWeight.bold,
+                                    ),)),
+                                  )],
+                            );
+                          },);
+                        },
                         child: Text(
                           "Edit",
                           style: TextStyle(
@@ -116,7 +240,88 @@ class _Page4State extends State<Page4> {
                           style: IconButton.styleFrom(
                               padding: EdgeInsets.only(top: 1),
                               alignment: Alignment.topCenter),
-                          onPressed: () {},
+                          onPressed: () {
+                             showDialog(context: context, builder: (context) {
+                            return AlertDialog(
+                              title: Container(
+                                height: 200,
+                                width: 250,
+                                child:Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(left: 10,right: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(15)
+                                      ),
+                                      child: Expanded(child: TextField(
+                                        controller: _username,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,hintText: "Enter your Name"
+                                          ,hintStyle: TextStyle(color: Colors.grey)),
+                                        )),
+                                    ),
+
+                                       Container(
+                                      height: 50,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(left: 10,right: 10),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: BorderRadius.circular(15)
+                                      ),
+                                      child: Expanded(child: TextField(
+                                        controller: _bio,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,hintText: "Enter your bio"
+                                          ,hintStyle: TextStyle(color: Colors.grey)),
+                                        )),
+                                    ),
+
+                                  ],
+                                ) ),
+                                actions: [
+                                  Container(
+                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                   gradient: LinearGradient(
+              colors: BorW
+                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
+                  : [Colors.grey.shade300, Colors.grey.shade200])
+                                 ),
+                                    child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent,shadowColor: Colors.transparent,
+                                      shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                      padding: EdgeInsets.only(left: 35,right: 35,top: 15,bottom: 15),
+                                    ),
+                                    onPressed: () {
+                                    // setUsername();
+  if(_username.text==''){
+   print("name null");
+}else{
+
+   hive.put(1, _username.text);
+}
+
+if(_bio.text==''){
+  print("bio null");
+}else{
+  
+      hive.put(2, _bio.text);
+}
+
+                                                                    }, child: Text("set",style: TextStyle(
+                                      color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                                    fontWeight: FontWeight.bold,
+                                    ),)),
+                                  )],
+                            );
+                          },);
+                          },
                           icon: Icon(
                             Icons.edit_outlined,
                             color: BorW
