@@ -16,144 +16,29 @@ class Page1 extends StatefulWidget {
 }
 
 class _Page1State extends State<Page1> {
-List<File> _audioFiles = [];
+  dynamic song;
+  dynamic INDEX;
+  List<dynamic> _audioFiles = [];
 
   late bool BorW;
-  void d() async{
-    //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+  bool _IssongPlayed=false;
+  void d() {
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
-    //  await Provider.of<ProviderFile>(context,listen: false)._loadAudioFiles;
-     Provider.of<ProviderFile>(context,listen: false).ak();
-    ProviderFile p =ProviderFile();
-    
-    print(BorW);
+    Provider.of<ProviderFile>(context, listen: false).ak();
+    _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
+    song = Provider.of<ProviderFile>(context, listen: false).i;
+    _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
+    print(_IssongPlayed);
+    print("isplayedor not====");
   }
 
   @override
-  void initState() async{
+
+  void initState() {
     // TODO: implement initState
     super.initState();
     d();
-    // _requestPermissions();
-    Provider.of(context,listen: false)._requestPermissions;
-    
   }
-
-  //______________________________________________________________________________________________________________________________________________________
-  // final AudioPlayer _audioPlayer = AudioPlayer();
-  // List<File> _audioFiles = [];
-
-  // // @override
-  // // void initState() {
-  // //   super.initState();
-  // //   _requestPermissions();
-  // // }
-
-  // // Request necessary permissions
-
-  // void _requestPermissions() async {
-  //   // unnecessaryyyyyyyyyyyyyyy
-  //   Map<Permission, PermissionStatus> statuses = await [
-  //     Permission.storage,
-  //     Permission.manageExternalStorage,
-  //   ].request();
-
-  //   var storage = statuses[Permission.storage];
-  //   var manageExternalStorage = statuses[Permission.manageExternalStorage];
-  //   // unnecessaryyyyyyyyyyyyyyy
-
-  //   var status = await Permission.storage.request();
-  //   if (status.isGranted || await Permission.manageExternalStorage.isGranted) {
-  //     _loadAudioFiles();
-  //   } else {
-  //     // Handle permission denial
-  //     print('Permission denied');
-  //   }
-  // }
-
-  // // Load audio files from the device
-  // Future<void> _loadAudioFiles() async {
-  //   final directory = await getExternalStorageDirectory();
-  //   if (directory == null) {
-  //     print("Failed to get external directory");
-  //     return;
-  //   }
-  //   print("AUDIO FILES======================");
-  //   print(directory);
-
-  //   // Assuming that music files are in the `Music` folder, you can change this path as per your needs.
-  //   try {
-  //     final musicDirectory = Directory('${directory.path}');
-  //     // final musicDirectory = Directory('/storage/emulated/0/Music');
-  //     if (await musicDirectory.exists()) {
-  //       final audioFiles = musicDirectory
-  //           .listSync()
-  //           .where((file) =>
-  //               file is File &&
-  //               (file.path.endsWith('.mp3') || file.path.endsWith('.m4a')))
-  //           .map((file) => file as File)
-  //           .toList();
-
-  //       setState(() {
-  //         _audioFiles = audioFiles;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     print("EXCEPTION");
-  //     print(e);
-  //   }
-  // }
-
-  // // Play selected audio
-  // void _playAudio(String filePath) async {
-  //   try {
-  //     await _audioPlayer.setFilePath(filePath);
-  //     _audioPlayer.play();
-  //   } on PlayerException catch (e) {
-  //     print("Error loading file: $e");
-  //   }
-  // }
-
-  // void _pauseAudio(String filePath) async {
-  //   try {
-  //     await _audioPlayer.setFilePath(filePath);
-  //     _audioPlayer.stop();
-  //   } on PlayerException catch (e) {
-  //     print("Error loading file: $e");
-  //   }
-  // }
-
-  // void _loop(String filePath) async {
-  //   try {
-  //     await _audioPlayer.setFilePath(filePath);
-  //     _audioPlayer.setVolume(100);
-  //   } on PlayerException catch (e) {
-  //     print("Error loading file: $e");
-  //   }
-  // }
-
-  // @override
-  // void dispose() {
-  //   _audioPlayer.dispose();
-  //   super.dispose();
-  // }
-
-  // PermissionStatus _permissionStatus = PermissionStatus.denied;
-
-  // Future<void> _askStoragePermission() async {
-  //   debugPrint(" ---------------- Asking for permission...");
-  //   await Permission.manageExternalStorage.request();
-  //   if (await Permission.manageExternalStorage.request().isGranted) {
-  //     print("granded??");
-  //     PermissionStatus permissionStatus =
-  //         await Permission.manageExternalStorage.status;
-  //     setState(() {
-  //       _permissionStatus = permissionStatus;
-  //     });
-  //   }
-  // }
-
-  // _____________________________________________________________________________________________________________________________________________________
 
   @override
   Widget build(BuildContext context) {
@@ -298,11 +183,24 @@ List<File> _audioFiles = [];
             height: 400,
             width: double.infinity,
             child: ListView.builder(
-             
               itemCount: _audioFiles.length,
               itemBuilder: (context, index) {
                 final audioFile = _audioFiles[index];
                 return ListTile(
+                  leading: Container(
+                    height: 25,
+                    width: 25,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all()),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "${index + 10}",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    ),
+                  ),
+
                   title: Text(
                     audioFile.uri.pathSegments.last,
                     style: TextStyle(
@@ -311,34 +209,159 @@ List<File> _audioFiles = [];
                   ),
                   onTap: () {
                     // _playAudio(audioFile.path);
-                    Provider.of(context,listen: false)._playAudio(audioFile.path);
-                    print("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
-                     print(audioFile);
-                    print("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
-                   
+                    Provider.of<ProviderFile>(context, listen: false)
+                        .playAudio(audioFile.path);
+                    setState(() {
+                      _IssongPlayed = true;
+                    });
+                    // Provider.of<ProviderFile>(context, listen: false)
+                    //     .setplayorpause(_IssongPlayed);
+
+                    String sn = _audioFiles[index].toString();
+
+                    List snn = sn.split('/');
+                    setState(() {
+                      song = snn[snn.length - 1];
+                      Provider.of<ProviderFile>(context, listen: false)
+                          .setnames(song);
+                      INDEX = audioFile.path;
+                    });
+                    print(
+                        "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
+                    print(audioFile);
+                    print(snn[snn.length - 1]);
+                    print(
+                        "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
                   },
-                  trailing: IconButton(
-                      onPressed: () {
-                        // _pauseAudio(audioFile.path);
-                         Provider.of(context,listen: false)._pauseAudio(audioFile.path);
-                      },
-                      icon: Icon(Icons.play_arrow,
-                          color: BorW
-                              ? Colors.grey.shade200
-                              : Colors.grey.shade800)),
+                  // trailing:  _IssongPlayed
+                  //   ?
+                  //   IconButton(onPressed: () {
+                  //     Provider.of<ProviderFile>(context, listen: false).playAudio(INDEX);
+                  //      setState(() {
+                  //           _IssongPlayed=true;
+                  //         });
+                  //   }, icon: Icon(Icons.pause,color: BorW
+                  //           ? Colors.grey.shade200
+                  //           : Colors.grey.shade800 )):
+                  //   IconButton(
+                  //       onPressed: () {
+                  //         Provider.of<ProviderFile>(context, listen: false).pauseAudio(INDEX);
+                  //         setState(() {
+                  //           _IssongPlayed=false;
+                  //         });
+                  //       },
+                  //       icon: Icon(Icons.play_arrow,color: BorW
+                  //           ? Colors.grey.shade200
+                  //           : Colors.grey.shade800 ))
                 );
               },
             ),
           ),
 
-          Container(
-            height: 90,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
-            // child: TextButton(
-                // onPressed: _askStoragePermission, child: Text("permission")),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'page2');
+            },
+            child: Container(
+              height: 90,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: .5,
+                      color: BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
+              padding: EdgeInsets.only(left: 10, right: 10),
+              // child: TextButton(
+              // onPressed: _askStoragePermission, child: Text("permission")),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            // color: Colors.grey.shade300,
+                            border: Border.all(
+                                width: 1,
+                                color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800),
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: EdgeInsets.all(8),
+                        child: Image.asset(
+                          './images/show.png',color: BorW
+                                    ? Colors.grey.shade400
+                                    : Colors.grey.shade800,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                          width: 150,
+                          // color: Colors.grey.shade200,
+                          child: Text(
+                            "$song",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800),
+                          )),
+                    ],
+                  ),
+            
+                  IconButton(
+                      onPressed: () {
+                        _IssongPlayed
+                            ? Provider.of<ProviderFile>(context, listen: false)
+                                .pauseAudio(INDEX)
+                            : Provider.of<ProviderFile>(context, listen: false)
+                                .playAudio(INDEX);
+                        setState(() {
+                          _IssongPlayed = !_IssongPlayed;
+                        });
+                        // Provider.of<ProviderFile>(context, listen: false)
+                        //     .setplayorpause(_IssongPlayed);
+                      },
+                      icon: _IssongPlayed
+                          ? Icon(Icons.pause,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800)
+                          : Icon(Icons.play_arrow,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800))
+            
+            
+            
+                  // _IssongPlayed
+                  //     ?
+                  //     IconButton(onPressed: () {
+                  //       Provider.of<ProviderFile>(context, listen: false).playAudio(INDEX);
+                  //       //  setState(() {
+                  //       //       _IssongPlayed=true;
+                  //       //     });
+                  //     }, icon: Icon(Icons.pause,color: BorW
+                  //             ? Colors.grey.shade200
+                  //             : Colors.grey.shade800 )):
+                  //     IconButton(
+                  //         onPressed: () {
+                  //           Provider.of<ProviderFile>(context, listen: false).pauseAudio(INDEX);
+                  //           // setState(() {
+                  //           //   _IssongPlayed=false;
+                  //           // });
+                  //         },
+                  //         icon: Icon(Icons.play_arrow,color: BorW
+                  //             ? Colors.grey.shade200
+                  //             : Colors.grey.shade800 ))
+                ],
+              ),
+            ),
           )
         ],
       ),

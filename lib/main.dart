@@ -20,7 +20,8 @@ void main()async {
     child: MaterialApp(
       home: HomePage(),
       routes: {
-        "main":(context)=>HomePage()
+        "main":(context)=>HomePage(),
+        'page2':(context)=>Page2()
       },
     )
     )
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
 
   final pages = [
     const Page1(),
-    const Page2(),
+    // const Page2(),
     const Page3(),
     const Page4(),
   ];
@@ -125,20 +126,20 @@ d();
                     size: 33,
                   ),
           ),
-          MaterialButton(
-              enableFeedback: false,
-              onPressed: () {
-                setState(() {
-                  pageIndex = 1;
-                });
-              },
-              child: Image(height: 34,width: 34
-              ,color:BorW ? Colors.grey.shade400:const Color.fromARGB(255, 73, 73, 73),
-                  image: pageIndex == 1
-                      ? AssetImage("./images/music-logo-png-2350.png")
-                      : AssetImage("./images/music.png"))
+          // MaterialButton(
+          //     enableFeedback: false,
+          //     onPressed: () {
+          //       setState(() {
+          //         pageIndex = 1;
+          //       });
+          //     },
+          //     child: Image(height: 34,width: 34
+          //     ,color:BorW ? Colors.grey.shade400:const Color.fromARGB(255, 73, 73, 73),
+          //         image: pageIndex == 1
+          //             ? AssetImage("./images/music-logo-png-2350.png")
+          //             : AssetImage("./images/music.png"))
 
-              ),
+          //     ),
           IconButton(
             enableFeedback: false,
             onPressed: () {

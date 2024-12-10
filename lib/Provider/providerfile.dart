@@ -5,24 +5,36 @@ import 'package:just_audio/just_audio.dart';
 import 'package:muxiq/main.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
-class ProviderFile extends ChangeNotifier{
-    final AudioPlayer _audioPlayer = AudioPlayer();
-  List<File> _audioFiles = [];
-List LS =[false,true];
 
-void blckandwhte(bool t){
-LS[0] = t;
-notifyListeners();
-}
+class ProviderFile extends ChangeNotifier {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  List<File> Songss = [];
+  List LS = [false,false];
 
-void ak(){
-  // _loadAudioFiles();
-  _requestPermissions();
-}
+  dynamic? i;
+// bool? Isplay;
 
+  void setnames(songname) {
+    i = songname;
+    notifyListeners();
+  }
 
+  // void setplayorpause(playpause) {
+  //   LS[1] = playpause;
+  //   notifyListeners();
+  // }
 
- void _requestPermissions() async {
+  void blckandwhte(bool t) {
+    LS[0] = t;
+    notifyListeners();
+  }
+
+  void ak() {
+    // _loadAudioFiles();
+    _requestPermissions();
+  }
+
+  void _requestPermissions() async {
     // unnecessaryyyyyyyyyyyyyyy
     Map<Permission, PermissionStatus> statuses = await [
       Permission.storage,
@@ -43,7 +55,7 @@ void ak(){
     notifyListeners();
   }
 
-   Future<void> _loadAudioFiles() async {
+  Future<void> _loadAudioFiles() async {
     final directory = await getExternalStorageDirectory();
     if (directory == null) {
       print("Failed to get external directory");
@@ -65,9 +77,7 @@ void ak(){
             .map((file) => file as File)
             .toList();
 
-       
-          _audioFiles = audioFiles;
-
+        Songss = audioFiles;
       }
     } catch (e) {
       print("EXCEPTION");
@@ -76,33 +86,31 @@ void ak(){
     notifyListeners();
   }
 
-
-  void _playAudio(String filePath) async {
+  void playAudio(String filePath) async {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.play();
+      LS[1]=true;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
     notifyListeners();
   }
 
-  void _pauseAudio(String filePath) async {
+  void pauseAudio(String filePath) async {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.stop();
+         LS[1]=false;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
     notifyListeners();
   }
 
-
-@override
+  @override
   void dispose() {
     _audioPlayer.dispose();
     super.dispose();
   }
-
-
 }

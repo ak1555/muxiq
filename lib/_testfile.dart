@@ -401,3 +401,126 @@ class _AudioPlayerPageState extends State<AudioPlayerPage> {
 
 
 
+
+
+
+
+
+// permissions{{{{{{{{{{{{{{{{{{{{{{{{{{{{{
+  //______________________________________________________________________________________________________________________________________________________
+  // final AudioPlayer _audioPlayer = AudioPlayer();
+  // List<File> _audioFiles = [];
+
+  // // @override
+  // // void initState() {
+  // //   super.initState();
+  // //   _requestPermissions();
+  // // }
+
+  // // Request necessary permissions
+
+  // void _requestPermissions() async {
+  //   // unnecessaryyyyyyyyyyyyyyy
+  //   Map<Permission, PermissionStatus> statuses = await [
+  //     Permission.storage,
+  //     Permission.manageExternalStorage,
+  //   ].request();
+
+  //   var storage = statuses[Permission.storage];
+  //   var manageExternalStorage = statuses[Permission.manageExternalStorage];
+  //   // unnecessaryyyyyyyyyyyyyyy
+
+  //   var status = await Permission.storage.request();
+  //   if (status.isGranted || await Permission.manageExternalStorage.isGranted) {
+  //     _loadAudioFiles();
+  //   } else {
+  //     // Handle permission denial
+  //     print('Permission denied');
+  //   }
+  // }
+
+  // // Load audio files from the device
+  // Future<void> _loadAudioFiles() async {
+  //   final directory = await getExternalStorageDirectory();
+  //   if (directory == null) {
+  //     print("Failed to get external directory");
+  //     return;
+  //   }
+  //   print("AUDIO FILES======================");
+  //   print(directory);
+
+  //   // Assuming that music files are in the `Music` folder, you can change this path as per your needs.
+  //   try {
+  //     final musicDirectory = Directory('${directory.path}');
+  //     // final musicDirectory = Directory('/storage/emulated/0/Music');
+  //     if (await musicDirectory.exists()) {
+  //       final audioFiles = musicDirectory
+  //           .listSync()
+  //           .where((file) =>
+  //               file is File &&
+  //               (file.path.endsWith('.mp3') || file.path.endsWith('.m4a')))
+  //           .map((file) => file as File)
+  //           .toList();
+
+  //       setState(() {
+  //         _audioFiles = audioFiles;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print("EXCEPTION");
+  //     print(e);
+  //   }
+  // }
+
+  // // Play selected audio
+  // void _playAudio(String filePath) async {
+  //   try {
+  //     await _audioPlayer.setFilePath(filePath);
+  //     _audioPlayer.play();
+  //   } on PlayerException catch (e) {
+  //     print("Error loading file: $e");
+  //   }
+  // }
+
+  // void _pauseAudio(String filePath) async {
+  //   try {
+  //     await _audioPlayer.setFilePath(filePath);
+  //     _audioPlayer.stop();
+  //   } on PlayerException catch (e) {
+  //     print("Error loading file: $e");
+  //   }
+  // }
+
+  // void _loop(String filePath) async {
+  //   try {
+  //     await _audioPlayer.setFilePath(filePath);
+  //     _audioPlayer.setVolume(100);
+  //   } on PlayerException catch (e) {
+  //     print("Error loading file: $e");
+  //   }
+  // }
+
+  // @override
+  // void dispose() {
+  //   _audioPlayer.dispose();
+  //   super.dispose();
+  // }
+
+  // PermissionStatus _permissionStatus = PermissionStatus.denied;
+
+  // Future<void> _askStoragePermission() async {
+  //   debugPrint(" ---------------- Asking for permission...");
+  //   await Permission.manageExternalStorage.request();
+  //   if (await Permission.manageExternalStorage.request().isGranted) {
+  //     print("granded??");
+  //     PermissionStatus permissionStatus =
+  //         await Permission.manageExternalStorage.status;
+  //     setState(() {
+  //       _permissionStatus = permissionStatus;
+  //     });
+  //   }
+  // }
+
+  // _____________________________________________________________________________________________________________________________________________________
+
+// }}}}}}}}}}}}}}}}}}}}}}}}}}}}}
