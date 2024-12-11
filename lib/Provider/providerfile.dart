@@ -14,6 +14,10 @@ class ProviderFile extends ChangeNotifier {
   dynamic? i;
 // bool? Isplay;
 
+ bool _isPlaying = false;
+  bool get isPlaying => _isPlaying;
+
+
   void setnames(songname) {
     i = songname;
     notifyListeners();
@@ -90,7 +94,8 @@ class ProviderFile extends ChangeNotifier {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.play();
-      LS[1]=true;
+      // LS[1]=true;
+      _isPlaying=true;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
@@ -101,11 +106,20 @@ class ProviderFile extends ChangeNotifier {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.stop();
-         LS[1]=false;
+        //  LS[1]=false;
+        _isPlaying=false;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
     notifyListeners();
+  }
+
+    void toggleAudio(String url) async {
+    if (_isPlaying) {
+       pauseAudio(url);
+    } else {
+       playAudio(url);
+    }
   }
 
   @override

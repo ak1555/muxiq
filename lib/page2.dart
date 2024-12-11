@@ -314,11 +314,31 @@ class _Page2State extends State<Page2> {
                             ),
                             Expanded(
                               child: Container(
-                                height: 1.5,
-                                // width: double.infinity,
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade900,
+//                                 height: 15,
+//                                 // width: double.infinity,
+//                                 // color: BorW
+//                                 //     ? Colors.grey.shade200
+//                                 //     : Colors.grey.shade900,
+//                                     child: 
+//   //                                   double sliderValue = 0;
+//   // Duration max = const Duration(seconds: 120);
+
+// Row(
+//             children: [
+//               Text('${sliderValue.toInt()}'),
+//               Slider(
+//                   value: sliderValue,
+//                   min: 0,
+//                   max: max.inSeconds.toDouble(),
+//                   onChanged: (double value){
+//                     setState(() {
+//                       sliderValue = value;
+//                     });
+//                   }
+//               ),
+//               Text('${max.inMinutes}')
+//             ],
+//           ),
                               ),
                             ),
                           ],

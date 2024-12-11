@@ -56,7 +56,6 @@ class _HomePageState extends State<HomePage> {
 
   final pages = [
     const Page1(),
-    // const Page2(),
     const Page3(),
     const Page4(),
   ];
@@ -144,10 +143,10 @@ d();
             enableFeedback: false,
             onPressed: () {
               setState(() {
-                pageIndex = 2;
+                pageIndex = 1;
               });
             },
-            icon: pageIndex == 2
+            icon: pageIndex == 1
                 ? const Icon(
                     Icons.favorite,
                   //  color: const Color.fromARGB(255, 73, 73, 73),
@@ -165,10 +164,10 @@ d();
             enableFeedback: false,
             onPressed: () {
               setState(() {
-                pageIndex = 3;
+                pageIndex = 2;
               });
             },
-            icon: pageIndex == 3
+            icon: pageIndex == 2
                 ?  Icon(
                     Icons.person,
                    color:BorW ? Colors.grey.shade400:const Color.fromARGB(255, 73, 73, 73),

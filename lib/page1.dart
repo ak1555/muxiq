@@ -116,6 +116,9 @@ class _Page1State extends State<Page1> {
                     ),
                   ],
                 ),
+        
+
+
               ],
             ),
           ),
@@ -314,28 +317,32 @@ class _Page1State extends State<Page1> {
                     ],
                   ),
             
-                  IconButton(
-                      onPressed: () {
-                        _IssongPlayed
-                            ? Provider.of<ProviderFile>(context, listen: false)
-                                .pauseAudio(INDEX)
-                            : Provider.of<ProviderFile>(context, listen: false)
-                                .playAudio(INDEX);
-                        setState(() {
-                          _IssongPlayed = !_IssongPlayed;
-                        });
-                        // Provider.of<ProviderFile>(context, listen: false)
-                        //     .setplayorpause(_IssongPlayed);
-                      },
-                      icon: _IssongPlayed
-                          ? Icon(Icons.pause,
-                              color: BorW
-                                  ? Colors.grey.shade200
-                                  : Colors.grey.shade800)
-                          : Icon(Icons.play_arrow,
-                              color: BorW
-                                  ? Colors.grey.shade200
-                                  : Colors.grey.shade800))
+                    IconButton(onPressed: () {
+                      Provider.of<ProviderFile>(context, listen: false).toggleAudio(INDEX);
+                    }, icon: Icon(Icons.u_turn_left))
+
+                  // IconButton(
+                  //     onPressed: () {
+                  //       _IssongPlayed
+                  //           ? Provider.of<ProviderFile>(context, listen: false)
+                  //               .pauseAudio(INDEX)
+                  //           : Provider.of<ProviderFile>(context, listen: false)
+                  //               .playAudio(INDEX);
+                  //       setState(() {
+                  //         _IssongPlayed = !_IssongPlayed;
+                  //       });
+                  //       // Provider.of<ProviderFile>(context, listen: false)
+                  //       //     .setplayorpause(_IssongPlayed);
+                  //     },
+                  //     icon: _IssongPlayed
+                  //         ? Icon(Icons.pause,
+                  //             color: BorW
+                  //                 ? Colors.grey.shade200
+                  //                 : Colors.grey.shade800)
+                  //         : Icon(Icons.play_arrow,
+                  //             color: BorW
+                  //                 ? Colors.grey.shade200
+                  //                 : Colors.grey.shade800))
             
             
             
