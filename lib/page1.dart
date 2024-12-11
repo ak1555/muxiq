@@ -17,19 +17,30 @@ class Page1 extends StatefulWidget {
 
 class _Page1State extends State<Page1> {
   dynamic song;
-  dynamic INDEX;
+  static dynamic INDEX;
   List<dynamic> _audioFiles = [];
 
   late bool BorW;
-  bool _IssongPlayed=false;
+  static late bool _IssongPlayed;
   void d() {
+    print(_audioFiles);
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     Provider.of<ProviderFile>(context, listen: false).ak();
-    _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
+   if( _audioFiles.isEmpty ){
+     _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
+   }else{
+    print("not null _audiofiles...............");
+   }
     song = Provider.of<ProviderFile>(context, listen: false).i;
     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
-    print(_IssongPlayed);
+    print(_audioFiles);
     print("isplayedor not====");
+  }
+
+  void dd(){
+ setState(() {
+     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
+ });
   }
 
   @override
@@ -38,6 +49,7 @@ class _Page1State extends State<Page1> {
     // TODO: implement initState
     super.initState();
     d();
+
   }
 
   @override
@@ -263,7 +275,7 @@ class _Page1State extends State<Page1> {
 
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'page2');
+              Navigator.pushNamed(context, 'page2',arguments: INDEX.toString());
             },
             child: Container(
               height: 90,
@@ -317,9 +329,13 @@ class _Page1State extends State<Page1> {
                     ],
                   ),
             
-                    IconButton(onPressed: () {
+                    IconButton(
+                    
+                      onPressed: () {
                       Provider.of<ProviderFile>(context, listen: false).toggleAudio(INDEX);
-                    }, icon: Icon(Icons.u_turn_left))
+                    
+                     dd();
+                    }, icon:_IssongPlayed? Icon(Icons.pause):Icon(Icons.play_arrow) )
 
                   // IconButton(
                   //     onPressed: () {
@@ -353,6 +369,7 @@ class _Page1State extends State<Page1> {
                   //       //  setState(() {
                   //       //       _IssongPlayed=true;
                   //       //     });
+                  //       dd();
                   //     }, icon: Icon(Icons.pause,color: BorW
                   //             ? Colors.grey.shade200
                   //             : Colors.grey.shade800 )):
@@ -362,6 +379,7 @@ class _Page1State extends State<Page1> {
                   //           // setState(() {
                   //           //   _IssongPlayed=false;
                   //           // });
+                  //           dd();
                   //         },
                   //         icon: Icon(Icons.play_arrow,color: BorW
                   //             ? Colors.grey.shade200

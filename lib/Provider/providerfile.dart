@@ -9,7 +9,9 @@ import 'package:path_provider/path_provider.dart';
 class ProviderFile extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   List<File> Songss = [];
-  List LS = [false,false];
+
+  static late bool ppp=false;
+  List LS = [false,ppp];
 
   dynamic? i;
 // bool? Isplay;
@@ -94,11 +96,12 @@ class ProviderFile extends ChangeNotifier {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.play();
-      // LS[1]=true;
+      ppp=true;
       _isPlaying=true;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
+    print(ppp);
     notifyListeners();
   }
 
@@ -106,11 +109,12 @@ class ProviderFile extends ChangeNotifier {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.stop();
-        //  LS[1]=false;
+         ppp=false;
         _isPlaying=false;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
+    print(ppp);
     notifyListeners();
   }
 
@@ -120,6 +124,20 @@ class ProviderFile extends ChangeNotifier {
     } else {
        playAudio(url);
     }
+    notifyListeners();
+  }
+  void mute()async{
+    if(_audioPlayer.volume ==0){
+  await _audioPlayer.setVolume(100);
+  ppp=false;
+    }else{
+        await _audioPlayer.setVolume(0);
+        ppp=true;
+    }
+  notifyListeners();
+  }
+  void next(){
+_audioPlayer.seekToPrevious();
   }
 
   @override

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/main.dart';
 import 'package:provider/provider.dart';
+import 'package:audio_waveforms/audio_waveforms.dart';
 
 class Page2 extends StatefulWidget {
   const Page2({super.key});
@@ -15,12 +17,43 @@ class _Page2State extends State<Page2> {
   bool play = true;
   bool lyrics = false;
   bool favorite = false;
-  bool pause = false;
+  bool pause = true;
+
+  var mybox = Hive.box('mybox');
+
+  // dynamic _music = Provider.of<ProviderFile>(context, listen: false).i;
+
+  //   late WaveController _waveController;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _waveController = WaveC();
+  //   // Load waveform data from audio file
+  //   _waveController.loadAudioFile(path: "assets/song.mp3");
+  // }
+
+  // @override
+  // void dispose() {
+  //   _waveController.dispose();
+  //   super.dispose();
+  // }
+
+  double sliderValue = 0;
+  Duration max = const Duration(seconds: 120);
+
+  Duration _songDuration = Duration.zero;
+  Duration _currentPosition = Duration.zero;
 
   late bool BorW;
+  late bool _issongPlayed;
+
   void d() {
     //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
-    BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
+    setState(() {
+      BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
+      _issongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
+    });
     print(BorW);
   }
 
@@ -33,16 +66,17 @@ class _Page2State extends State<Page2> {
 
   @override
   Widget build(BuildContext context) {
+    String index = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            "PLAYLIST",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 19,
-                color: BorW ? Colors.grey.shade200 : Colors.black),
-          ),
+        backgroundColor:
+            BorW ? const Color.fromARGB(255, 66, 66, 66) : Colors.grey.shade100,
+        title: Text(
+          "PLAYLIST",
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 19,
+              color: BorW ? Colors.grey.shade200 : Colors.black),
         ),
       ),
       body: Container(
@@ -250,18 +284,29 @@ class _Page2State extends State<Page2> {
                                   ? Colors.grey.shade200
                                   : Colors.grey.shade900,
                             )),
+                        SizedBox(
+                          width: 5,
+                        ),
                         Expanded(
                             child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
-                              child: Text("Song Name",
+                              child: Text(
+                                  Provider.of<ProviderFile>(context,
+                                          listen: false)
+                                      .i,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                   style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
                                           : Colors.grey.shade900,
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.w600)),
+                            ),
+                            SizedBox(
+                              height: 5,
                             ),
                             Text(
                               "playlist",
@@ -275,6 +320,23 @@ class _Page2State extends State<Page2> {
                         )),
                         IconButton(
                             onPressed: () {
+                              if (mybox.get(11) != null) {
+                                print("NOT NULL FAVORATE HIVE");
+                                List ls = mybox.get(11);
+                                ls.add(index);
+                                mybox.put(11, ls);
+                                print(
+                                    "(((((((((((((((((((((((((((((FAVORATE IF HIVE)))))))))))))))))))))))))))))");
+                                print(ls);
+                              } else {
+                                List ls = [];
+                                ls.add(index);
+                                mybox.put(11, ls);
+                                print(
+                                    "(((((((((((((((((((((((((((((FAVORATE ELSE HIVE)))))))))))))))))))))))))))))");
+                                print(ls);
+                              }
+
                               setState(() {
                                 favorite = !favorite;
                               });
@@ -294,7 +356,7 @@ class _Page2State extends State<Page2> {
                     ),
                   ),
                   Container(
-                    height: 65,
+                    height: 70,
                     width: double.infinity,
                     margin: EdgeInsets.only(left: 24, right: 24),
                     child: Column(
@@ -302,26 +364,42 @@ class _Page2State extends State<Page2> {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.play_arrow,
-                              size: 17,
-                              color: BorW
-                                  ? Colors.grey.shade200
-                                  : Colors.grey.shade900,
+                            IconButton(
+                              onPressed: () {
+                                Provider.of<ProviderFile>(context,
+                                        listen: false)
+                                    .mute();
+                              },
+                              icon: Icon(
+                                Icons.mic_off,
+                                size: 17,
+                                color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade900,
+                              ),
                             ),
                             SizedBox(
                               width: 2.5,
                             ),
                             Expanded(
                               child: Container(
-//                                 height: 15,
+                                height: 15,
 //                                 // width: double.infinity,
 //                                 // color: BorW
 //                                 //     ? Colors.grey.shade200
 //                                 //     : Colors.grey.shade900,
-//                                     child: 
-//   //                                   double sliderValue = 0;
-//   // Duration max = const Duration(seconds: 120);
+                                child: Slider(
+                                  min: 0.0,
+                                  max: _songDuration.inSeconds.toDouble(),
+                                  value: _currentPosition.inSeconds
+                                      .toDouble()
+                                      .clamp(0.0,
+                                          _songDuration.inSeconds.toDouble()),
+                                  onChanged: (value) {
+                                    // Seek to the new position
+                                    // Provider.of<ProviderFile>(context,listen: false).seeeek(Duration(seconds: value.toInt()));
+                                  },
+                                ),
 
 // Row(
 //             children: [
@@ -331,9 +409,9 @@ class _Page2State extends State<Page2> {
 //                   min: 0,
 //                   max: max.inSeconds.toDouble(),
 //                   onChanged: (double value){
-//                     setState(() {
-//                       sliderValue = value;
-//                     });
+//                     // setState(() {
+//                     //   sliderValue = value;
+//                     // });
 //                   }
 //               ),
 //               Text('${max.inMinutes}')
@@ -402,20 +480,21 @@ class _Page2State extends State<Page2> {
                         ),
                         IconButton(
                           onPressed: () {
-                            setState(() {
-                              pause = !pause;
-                            });
+                            // Provider.of<ProviderFile>(context,listen: false).toggleAudio(index);
+                            Provider.of<ProviderFile>(context, listen: false)
+                                .mute();
+                            d();
                           },
-                          icon: pause
+                          icon: _issongPlayed
                               ? Icon(
-                                  Icons.pause_circle_outline_rounded,
+                                  Icons.play_circle_outline_rounded,
                                   size: 53,
                                   color: BorW
                                       ? Colors.grey.shade200
                                       : Colors.grey.shade900,
                                 )
                               : Icon(
-                                  Icons.play_circle_outline_rounded,
+                                  Icons.pause_circle_outline_rounded,
                                   size: 53,
                                   color: BorW
                                       ? Colors.grey.shade200
@@ -423,7 +502,11 @@ class _Page2State extends State<Page2> {
                                 ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print("skip");
+                            Provider.of<ProviderFile>(context, listen: false)
+                                .next();
+                          },
                           icon: Icon(
                             Icons.skip_next_outlined,
                             size: 32,
@@ -433,7 +516,10 @@ class _Page2State extends State<Page2> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<ProviderFile>(context, listen: false)
+                                .playAudio(index);
+                          },
                           icon: Icon(
                             Icons.repeat,
                             size: 32,
