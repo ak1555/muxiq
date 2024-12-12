@@ -5,17 +5,19 @@ import 'package:lottie/lottie.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/main.dart';
 import 'package:muxiq/page1.dart';
+import 'package:muxiq/page3.dart';
+
 import 'package:provider/provider.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 
-class Page2 extends StatefulWidget {
-  const Page2({super.key});
+class FavPage2 extends StatefulWidget {
+  const FavPage2({super.key});
 
   @override
-  State<Page2> createState() => _Page2State();
+  State<FavPage2> createState() => _FavPage2State();
 }
 
-class _Page2State extends State<Page2> {
+class _FavPage2State extends State<FavPage2> {
   bool play = true;
   bool lyrics = false;
   bool favorite = false;
@@ -27,22 +29,7 @@ class _Page2State extends State<Page2> {
   var mybox = Hive.box('mybox');
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  //  bool isMuted = false;
-
-  //    void toggleMute() {
-  //     _audioPlayer.setAsset('index');
-  //     print("<<<<<<<<<<<<<<<<<<<mutedfunction>>>>>>>>>>>>>>>>>>>");
-  //     print(index);
-  //   setState(() {
-  //     if (isMuted) {
-  //       _audioPlayer.setVolume(1.0);  // Unmute
-  //     } else {
-  //       _audioPlayer.setVolume(0);  // Mute
-  //     }
-  //     isMuted = !isMuted;
-  //   });
-
-  // }
+ Page3 pg3=Page3();
 
   double sliderValue = 0;
   Duration max = const Duration(seconds: 120);
@@ -509,11 +496,7 @@ class _Page2State extends State<Page2> {
                           onPressed: ()async {
 
 
-                            //   List l=  Provider.of<ProviderFile>(context, listen: false).Songss;
-                            // String pp = l[index+1].toString();
-                            // print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^ NEXT SONG NAME^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-                            // print(pp);
-
+                          // await pg3.initializePlaylist();
 
                     
                           },

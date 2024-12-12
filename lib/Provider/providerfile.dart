@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:muxiq/main.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -8,18 +9,22 @@ import 'package:path_provider/path_provider.dart';
 
 class ProviderFile extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
+  final AudioPlayer _playaudio = AudioPlayer();
   List<File> Songss = [];
+  List lils = [];
+    var mybox = Hive.box('mybox');
 
-  static late bool ppp=false;
+  //  bool ppp=false;
     bool isMuted = false;
-  List LS = [false,ppp];
-
+  List LS = [false];
+  int _currentIndex = 0;
   dynamic? i;
 // bool? Isplay;
 
  bool _isPlaying = false;
   bool get isPlaying => _isPlaying;
 
+  // int get currentIndex => _currentIndex;
 
   void setnames(songname) {
     i = songname;
@@ -39,6 +44,8 @@ class ProviderFile extends ChangeNotifier {
   void ak() {
     // _loadAudioFiles();
     _requestPermissions();
+    initializePlaylist();
+   lils= mybox.get(11);
   }
 
   void _requestPermissions() async {
@@ -87,6 +94,7 @@ class ProviderFile extends ChangeNotifier {
         Songss = audioFiles;
                print("<<<<<<<<<<<<<<<<<<<<<<+++++++++++++++++++SONGS LIST+++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>");
         print(Songss[1].toString());
+        mybox.put(10, Songss);
         
       }
     } catch (e) {
@@ -100,12 +108,12 @@ class ProviderFile extends ChangeNotifier {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.play();
-      ppp=true;
+      _isPlaying=true;
       _isPlaying=true;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
-    print(ppp);
+
     notifyListeners();
   }
 
@@ -113,12 +121,12 @@ class ProviderFile extends ChangeNotifier {
     try {
       await _audioPlayer.setFilePath(filePath);
       _audioPlayer.stop();
-         ppp=false;
+         _isPlaying=false;
         _isPlaying=false;
     } on PlayerException catch (e) {
       print("Error loading file: $e");
     }
-    print(ppp);
+
     notifyListeners();
   }
 
@@ -130,32 +138,96 @@ class ProviderFile extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+
+
   void mute()async{
     if(_audioPlayer.volume ==0){
   await _audioPlayer.setVolume(100);
-  ppp=false;
+    await _audioPlayer.play();
+  _isPlaying=false;
     }else{
+        await _audioPlayer.stop();
         await _audioPlayer.setVolume(0);
-        ppp=true;
+        _isPlaying=true;
     }
   notifyListeners();
   }
 
-  void next(){
-_audioPlayer.seekToPrevious();
-  }
+
+
+
 
 
   void toggleMute() {
     isMuted = !isMuted;
-    _audioPlayer.setVolume(isMuted ? 0.0 : 1.0);  // Mute or unmute
+    _audioPlayer.setVolume(isMuted ? 0.0 : 1.0);  
     notifyListeners();  
   }
+
+
+    Future<void> playNext() async {
+    //   print("playnext");
+    // if (_currentIndex < Songss.length - 1) {
+    //   _currentIndex++;
+    //   await _audioPlayer.seek(Duration.zero, index: _currentIndex);
+    //   await _audioPlayer.play();
+    //   notifyListeners();
+    // }
+    _audioPlayer.seekToNext();
+  }
+
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Future<void> initializePlaylist() async {
+    final playlist = ConcatenatingAudioSource(
+      children: lils.map((song) => AudioSource.uri(Uri.parse(song))).toList(),
+    );
+
+    // Set the playlist
+    await _playaudio.setAudioSource(playlist);
+    notifyListeners();
+  }
+
+  Future<void> favplay() async {
+ try {
+      print(_playaudio);
+    _playaudio.play();
+     notifyListeners();
+ } catch (e) {
+   print(e);
+ }
+  }
+
+  Future<void> favpause() async {
+    _playaudio.pause();
+     notifyListeners();
+  }
+
+  Future<void> favnxt() async {
+    _playaudio.seekToNext();
+     notifyListeners();
+  }
+
+  Future<void> favprevious() async {
+    _playaudio.seekToPrevious();
+     notifyListeners();
+  }
+
+  // void dispose() {
+  //   _audioPlayer.dispose();
+  // }
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 
 
   @override
   void dispose() {
     _audioPlayer.dispose();
+    _playaudio.dispose();
     super.dispose();
   }
 }

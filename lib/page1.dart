@@ -1,3 +1,5 @@
+// import 'dart:io';
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -19,13 +21,12 @@ class Page1 extends StatefulWidget {
 class _Page1State extends State<Page1> {
   dynamic song;
   static dynamic INDEX;
-  List<dynamic> _audioFiles = [];
+  List<File> _audioFiles = [];
   var mybox = Hive.box('mybox');
 
   late bool BorW;
   static late bool _IssongPlayed;
   void d() {
-    
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     Provider.of<ProviderFile>(context, listen: false).ak();
    if( _audioFiles.isEmpty ){
@@ -34,19 +35,20 @@ class _Page1State extends State<Page1> {
     print("not null _audiofiles...............");
    }
     song = Provider.of<ProviderFile>(context, listen: false).i;
-    _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
+    _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
     print(_audioFiles);
     print("isplayedor not====");
-    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(_audioFiles);
-    mybox.put(22, _audioFiles);
-    print(mybox.get(22));
-     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    // print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    // print(_audioFiles);
+    // print("mybox put 22 dataaas");
+    // mybox.put(22, _audioFiles);
+    // print(mybox.get(12));
+    //  print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   }
 
   void dd(){
  setState(() {
-     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
+     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
  });
   }
 
@@ -56,8 +58,15 @@ class _Page1State extends State<Page1> {
     // TODO: implement initState
     super.initState();
     d();
-
+    // addtoHive();
   }
+  // void addtoHive(){
+  //    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  //    List li = _audioFiles.toList();
+  //   //  mybox.put(10, li);
+  //    print(mybox.get(10));
+  //     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -210,17 +219,13 @@ class _Page1State extends State<Page1> {
                 final audioFile = _audioFiles[index];
                 return ListTile(
                   leading: Container(
-                    height: 25,
-                    width: 25,
+                    height: 35,
+                    width: 35,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all()),
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 1,color: Colors.grey)),
                     alignment: Alignment.center,
-                    child: Text(
-                      "${index + 10}",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
+                    child: Image.asset("./images/music-logo-png-2350.png",fit: BoxFit.cover,color: BorW ? Colors.grey.shade500 : Colors.grey.shade500)
                   ),
 
                   title: Text(
@@ -233,6 +238,7 @@ class _Page1State extends State<Page1> {
                     // _playAudio(audioFile.path);
                     Provider.of<ProviderFile>(context, listen: false)
                         .playAudio(audioFile.path);
+                        INDEX=audioFile.path;
                     setState(() {
                       _IssongPlayed = true;
                     });
@@ -246,7 +252,7 @@ class _Page1State extends State<Page1> {
                       song = snn[snn.length - 1];
                       Provider.of<ProviderFile>(context, listen: false)
                           .setnames(song);
-                      INDEX = audioFile.path;
+                      // INDEX = audioFile.path;
                     });
                     print(
                         "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
@@ -339,10 +345,12 @@ class _Page1State extends State<Page1> {
                     IconButton(
                     
                       onPressed: () {
-                      Provider.of<ProviderFile>(context, listen: false).toggleAudio(INDEX);
+                      Provider.of<ProviderFile>(context, listen: false).mute();
                     
                      dd();
-                    }, icon:_IssongPlayed? Icon(Icons.pause):Icon(Icons.play_arrow) )
+                    }, 
+                    // icon:_IssongPlayed? Icon(Icons.pause):Icon(Icons.play_arrow) )
+                       icon: Provider.of<ProviderFile>(context,listen: false).isPlaying ? Icon(Icons.pause):Icon(Icons.play_arrow) )
 
                   // IconButton(
                   //     onPressed: () {

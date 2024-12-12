@@ -313,7 +313,6 @@ if(_bio.text==''){
   
       hive.put(2, _bio.text);
 }
-
                                                                     }, child: Text("set",style: TextStyle(
                                       color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
                                     fontWeight: FontWeight.bold,

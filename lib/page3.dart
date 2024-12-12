@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:muxiq/Provider/pp.dart';
 import 'package:muxiq/Provider/providerfile.dart';
+import 'package:muxiq/favext.dart';
 import 'package:provider/provider.dart';
 
 class Page3 extends StatefulWidget {
@@ -14,8 +17,8 @@ class _Page3State extends State<Page3> {
   List ls = [];
   late bool BorW;
   var mybox = Hive.box("mybox");
-   String?  song;
-   String? singer;
+  String? song;
+  String? singer;
   void d() {
     //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
@@ -28,11 +31,43 @@ class _Page3State extends State<Page3> {
     }
   }
 
+  AudioPlayer _audioPlayer = AudioPlayer();
+
+  // final List<String> _songs = [];
+
+  Future<void> initializePlaylist() async {
+    final playlist = ConcatenatingAudioSource(
+      children: ls.map((song) => AudioSource.uri(Uri.parse(song))).toList(),
+    );
+
+    // Set the playlist
+    await _audioPlayer.setAudioSource(playlist);
+  }
+
+  Future<void> play() => _audioPlayer.play();
+  // Future<void> play(int ind)async {
+  //   _audioPlayer=ls[ind];
+  //  await _audioPlayer.play();
+  // }
+
+  Future<void> pause() => _audioPlayer.pause();
+
+  Future<void> next() async {
+    _audioPlayer.seekToNext();
+  }
+
+  Future<void> previous() => _audioPlayer.seekToPrevious();
+
+  void dispose() {
+    _audioPlayer.dispose();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     d();
+    initializePlaylist();
   }
 
   @override
@@ -115,93 +150,104 @@ class _Page3State extends State<Page3> {
                 SizedBox(
                   height: 10,
                 ),
-                Expanded(child: ListView.builder(
+                Expanded(
+                    child: ListView.builder(
                   itemCount: ls.length,
                   itemBuilder: (context, index) {
-
-                      String a = ls[index].toString();
+                    String a = ls[index].toString();
 
                     List snn = a.split('/');
-                    
-                      String b = snn[snn.length - 1].toString();
-                       List EDse = b.split('-');
-                      song =EDse[0];
-                      String c=EDse[1].toString();
-                    List kkkk = c.split(',');
-                    singer=kkkk[0];
 
-                    return Container(
-                      margin: EdgeInsets.only(
-                          left: 13, right: 12, top: 11, bottom: 11),
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                              // color: Colors.grey.shade400,
-                              color: BorW
-                                  ? Colors.grey.shade600
-                                  : Colors.grey.shade400,
-                              borderRadius: BorderRadius.circular(100),
+                    String b = snn[snn.length - 1].toString();
+                    List EDse = b.split('-');
+                    song = EDse[0];
+                    String c = EDse[1].toString();
+                    List kkkk = c.split(',');
+                    singer = kkkk[0];
+
+                    return GestureDetector(
+                      onTap: () async {
+                        print("ontapped");
+                        await play();
+                        // await  Provider.of<ProviderFile>(context,listen: false).favplay();
+                        // Navigator.pushNamed(context, "fav");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: 13, right: 12, top: 11, bottom: 11),
+                        child: Row(
+                          children: [
+                            Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        width: 1, color: Colors.grey)),
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                    "./images/music-logo-png-2350.png",
+                                    fit: BoxFit.cover,
+                                    color: BorW
+                                        ? Colors.grey.shade500
+                                        : Colors.grey.shade500)),
+                            SizedBox(
+                              width: 20,
                             ),
-                            alignment: Alignment.center,
-                            child: Text(
-                             "1",
-                              style: TextStyle(
-                                  color: BorW
-                                      ? Colors.grey.shade100
-                                      : Colors.grey.shade800),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                              child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                 song.toString(),
-                                  style: TextStyle(
-                                      color: BorW
-                                          ? Colors.grey.shade200
-                                          : Colors.grey.shade900,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 3,),
-                                Text(
-                                  singer.toString(),
-                                  style: TextStyle(
-                                      color: BorW
-                                          ? Colors.grey.shade200
-                                          : Colors.grey.shade800),
-                                )
-                              ],
-                            ),
-                          )),
-                          Container(
-                              height: 39,
-                              width: 39,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade600,
-                                  borderRadius: BorderRadius.circular(200),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 3,
-                                        spreadRadius: 0,
-                                        offset: Offset(0, 3),
-                                        color: Colors.grey)
-                                  ]),
-                              // alignment: Alignment.center,
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.white,
-                                  ))),
-                        ],
+                            Expanded(
+                                child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    song.toString(),
+                                    style: TextStyle(
+                                        color: BorW
+                                            ? Colors.grey.shade200
+                                            : Colors.grey.shade900,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  Text(
+                                    singer.toString(),
+                                    style: TextStyle(
+                                        color: BorW
+                                            ? Colors.grey.shade200
+                                            : Colors.grey.shade800),
+                                  )
+                                ],
+                              ),
+                            )),
+                            Container(
+                                height: 39,
+                                width: 39,
+                                decoration: BoxDecoration(
+                                    color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade500,
+                                    borderRadius: BorderRadius.circular(200),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 3,
+                                          spreadRadius: 0,
+                                          offset: Offset(0, 3),
+                                          color: Colors.grey)
+                                    ]),
+                                // alignment: Alignment.center,
+                                child: IconButton(
+                                    onPressed: () {
+                                      Provider.of<ProviderFile>(context,
+                                              listen: false)
+                                          .favnxt();
+                                    },
+                                    icon: Icon(
+                                      Icons.more_vert,
+                                      color: Colors.white,
+                                    ))),
+                          ],
+                        ),
                       ),
                     );
                   },

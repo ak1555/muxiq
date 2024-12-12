@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:muxiq/LoginPage.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/_testfile.dart';
+import 'package:muxiq/favext.dart';
 // import 'package:muxiq/_testfile.dart';
 import 'package:muxiq/page1.dart';
 import 'package:muxiq/page2.dart';
@@ -21,7 +22,8 @@ void main()async {
       home: HomePage(),
       routes: {
         "main":(context)=>HomePage(),
-        'page2':(context)=>Page2()
+        'page2':(context)=>Page2(),
+        "fav":(context)=>FavPage2()
       },
     )
     )
