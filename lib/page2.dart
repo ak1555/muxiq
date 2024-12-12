@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/main.dart';
+import 'package:muxiq/page1.dart';
 import 'package:provider/provider.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 
@@ -14,30 +16,37 @@ class Page2 extends StatefulWidget {
 }
 
 class _Page2State extends State<Page2> {
+
+
+
   bool play = true;
   bool lyrics = false;
   bool favorite = false;
   bool pause = true;
 
+String? index;
+List ls=[];
+
   var mybox = Hive.box('mybox');
+    final AudioPlayer _audioPlayer = AudioPlayer();
 
-  // dynamic _music = Provider.of<ProviderFile>(context, listen: false).i;
+     bool isMuted = false;
 
-  //   late WaveController _waveController;
+     void toggleMute() {
+      _audioPlayer.setAsset('index');
+      print("<<<<<<<<<<<<<<<<<<<mutedfunction>>>>>>>>>>>>>>>>>>>");
+      print(index);
+    setState(() {
+      if (isMuted) {
+        _audioPlayer.setVolume(1.0);  // Unmute
+      } else {
+        _audioPlayer.setVolume(0);  // Mute
+      }
+      isMuted = !isMuted;
+    });
+   
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _waveController = WaveC();
-  //   // Load waveform data from audio file
-  //   _waveController.loadAudioFile(path: "assets/song.mp3");
-  // }
-
-  // @override
-  // void dispose() {
-  //   _waveController.dispose();
-  //   super.dispose();
-  // }
 
   double sliderValue = 0;
   Duration max = const Duration(seconds: 120);
@@ -50,9 +59,19 @@ class _Page2State extends State<Page2> {
 
   void d() {
     //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
+
     setState(() {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
       _issongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
+       ls=mybox.get(22);
+      // if(mybox.get(22)!=null){
+      //   ls=mybox.get(22);
+      // }
+      // else{
+      //   print("==========mybox 22 is null");
+      // }
+      print("MMMMMMMMMMM HIVE LS");
+      print(ls);
     });
     print(BorW);
   }
@@ -66,7 +85,7 @@ class _Page2State extends State<Page2> {
 
   @override
   Widget build(BuildContext context) {
-    String index = ModalRoute.of(context)?.settings.arguments as String;
+     index = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         backgroundColor:
@@ -368,7 +387,8 @@ class _Page2State extends State<Page2> {
                               onPressed: () {
                                 Provider.of<ProviderFile>(context,
                                         listen: false)
-                                    .mute();
+                                    .toggleMute();
+                                // toggleMute();
                               },
                               icon: Icon(
                                 Icons.mic_off,
@@ -503,6 +523,16 @@ class _Page2State extends State<Page2> {
                         ),
                         IconButton(
                           onPressed: () {
+                           print(ls.length);
+                            for (int i = 0;i<ls.length;i++){
+                             
+                              if(ls[i]==index){
+                              print(i);
+                            }
+                            else{
+                              print("no");
+                            }
+                            }
                             print("skip");
                             Provider.of<ProviderFile>(context, listen: false)
                                 .next();
@@ -518,7 +548,7 @@ class _Page2State extends State<Page2> {
                         IconButton(
                           onPressed: () {
                             Provider.of<ProviderFile>(context, listen: false)
-                                .playAudio(index);
+                                .playAudio(index!);
                           },
                           icon: Icon(
                             Icons.repeat,

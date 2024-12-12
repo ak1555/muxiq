@@ -11,6 +11,7 @@ class ProviderFile extends ChangeNotifier {
   List<File> Songss = [];
 
   static late bool ppp=false;
+    bool isMuted = false;
   List LS = [false,ppp];
 
   dynamic? i;
@@ -84,6 +85,9 @@ class ProviderFile extends ChangeNotifier {
             .toList();
 
         Songss = audioFiles;
+               print("<<<<<<<<<<<<<<<<<<<<<<+++++++++++++++++++SONGS LIST+++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>");
+        print(Songss[1].toString());
+        
       }
     } catch (e) {
       print("EXCEPTION");
@@ -136,9 +140,18 @@ class ProviderFile extends ChangeNotifier {
     }
   notifyListeners();
   }
+
   void next(){
 _audioPlayer.seekToPrevious();
   }
+
+
+  void toggleMute() {
+    isMuted = !isMuted;
+    _audioPlayer.setVolume(isMuted ? 0.0 : 1.0);  // Mute or unmute
+    notifyListeners();  
+  }
+
 
   @override
   void dispose() {

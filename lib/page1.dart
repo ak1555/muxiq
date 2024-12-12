@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 // import 'package:just_audio/just_audio.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 // import 'package:permission_handler/permission_handler.dart';
@@ -19,11 +20,12 @@ class _Page1State extends State<Page1> {
   dynamic song;
   static dynamic INDEX;
   List<dynamic> _audioFiles = [];
+  var mybox = Hive.box('mybox');
 
   late bool BorW;
   static late bool _IssongPlayed;
   void d() {
-    print(_audioFiles);
+    
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     Provider.of<ProviderFile>(context, listen: false).ak();
    if( _audioFiles.isEmpty ){
@@ -35,6 +37,11 @@ class _Page1State extends State<Page1> {
     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).LS[1];
     print(_audioFiles);
     print("isplayedor not====");
+    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(_audioFiles);
+    mybox.put(22, _audioFiles);
+    print(mybox.get(22));
+     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   }
 
   void dd(){
