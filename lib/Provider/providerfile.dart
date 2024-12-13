@@ -6,6 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:muxiq/main.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProviderFile extends ChangeNotifier {
   final AudioPlayer audioPlayer = AudioPlayer();
@@ -13,6 +14,8 @@ class ProviderFile extends ChangeNotifier {
   List<File> Songss = [];
   List lils = [];
     var mybox = Hive.box('mybox');
+
+    List SOngNAme=[];
 
   Duration _currentPosition = Duration.zero;
   Duration _totalDuration = Duration.zero;
@@ -30,10 +33,10 @@ int ListIndex=0;
 
   // int get currentIndex => _currentIndex;
 
-  void setnames(songname) {
-    i = songname;
-    notifyListeners();
-  }
+  // void setnames(songname) {
+  //   i = songname;
+  //   notifyListeners();
+  // }
 
   // void setplayorpause(playpause) {
   //   LS[1] = playpause;
@@ -104,13 +107,37 @@ int ListIndex=0;
                print("<<<<<<<<<<<<<<<<<<<<<<+++++++++++++++++++SONGS LIST+++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>");
         print(Songss);
         mybox.put(10, Songss);
-        
+
+        setnames();
       }
     } catch (e) {
       print("EXCEPTION");
       print(e);
     }
     notifyListeners();
+  }
+
+
+  void setnames(){
+    try {    
+for(int k=0;k<=Songss.length;k++){
+    String a = Songss[k].toString();
+
+                    List snn = a.split('/');
+
+                    String b = snn[snn.length - 1].toString();
+                    List EDse = b.split('-');
+                   String song = EDse[0];
+                    SOngNAme.add(song);
+                    // List kkkk = c.split(',');
+                    // singer = kkkk[0];
+}
+    } catch (e) {
+      print(e);
+    }
+notifyListeners();
+
+
   }
 
   void playAudio(String filePath) async {
@@ -187,48 +214,21 @@ int ListIndex=0;
   }
 
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//   Future<void> initializePlaylist() async {
-//     final playlist = ConcatenatingAudioSource(
-//       children: lils.map((song) => AudioSource.uri(Uri.parse(song))).toList(),
-//     );
 
-//     // Set the playlist
-//     await _playaudio.setAudioSource(playlist);
-//     notifyListeners();
-//   }
+  void AddtoHive(v){
+   List FavHiveList=[];
+  if(mybox.get(1)!=null){
+     List a=mybox.get(1);
+   a.add(v);
+    mybox.put(1, FavHiveList);
+    }else{
+      List a=v;
+  mybox.put(1, a);
+    }
+  }
 
-//   Future<void> favplay() async {
-//  try {
-//       print(_playaudio);
-//     _playaudio.play();
-//      notifyListeners();
-//  } catch (e) {
-//    print(e);
-//  }
-//   }
 
-//   Future<void> favpause() async {
-//     _playaudio.pause();
-//      notifyListeners();
-//   }
 
-//   Future<void> favnxt() async {
-//     _playaudio.seekToNext();
-//      notifyListeners();
-//   }
-
-//   Future<void> favprevious() async {
-//     _playaudio.seekToPrevious();
-//      notifyListeners();
-//   }
-
-  // void dispose() {
-  //   audioPlayer.dispose();
-  // }
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 void PLAY() async {
     // await audioPlayer.setFilePath(filePath);
     //   audioPlayer.play();
@@ -249,6 +249,51 @@ void PLAY() async {
     notifyListeners();
   }
 
+void NEXTSONG() async {
+    // await audioPlayer.setFilePath(filePath);
+    //   audioPlayer.play();
+    try {
+     int r=ListIndex+1;
+      String sngnme = Songss[r].path;
+       print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      print(sngnme);
+       print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      await audioPlayer.setFilePath(sngnme);
+      audioPlayer.play();
+      _isPlaying=true;
+      _isPlaying=true;
+
+      ListIndex=r;
+    } on PlayerException catch (e) {
+      print("Error loading file:============================================================================================ $e");
+    }
+
+    notifyListeners();
+  }
+
+
+
+void PRESONG() async {
+    // await audioPlayer.setFilePath(filePath);
+    //   audioPlayer.play();
+    try {
+     int r=ListIndex-1;
+      String sngnme = Songss[r].path;
+       print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      print(sngnme);
+       print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      await audioPlayer.setFilePath(sngnme);
+      audioPlayer.play();
+      _isPlaying=true;
+      _isPlaying=true;
+
+      ListIndex=r;
+    } on PlayerException catch (e) {
+      print("Error loading file:============================================================================================ $e");
+    }
+
+    notifyListeners();
+  }
 
 
   @override

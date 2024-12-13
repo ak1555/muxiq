@@ -41,7 +41,6 @@ setState(() {
 
 
   void d() {
-    //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     print(BorW);
   }

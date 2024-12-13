@@ -1,16 +1,9 @@
-// import 'dart:io';
-
 import 'dart:ffi';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-// import 'package:just_audio/just_audio.dart';
 import 'package:muxiq/Provider/providerfile.dart';
-// import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-// import 'package:flutter/services.dart';
-// import 'package:path_provider/path_provider.dart';
 
 class Page1 extends StatefulWidget {
   const Page1({super.key});
@@ -24,50 +17,41 @@ class _Page1State extends State<Page1> {
   static dynamic INDEX;
   List<File> _audioFiles = [];
   var mybox = Hive.box('mybox');
+  int h = 0;
+  List Songnamelist = [];
 
   late bool BorW;
   static late bool _IssongPlayed;
   void d() {
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     Provider.of<ProviderFile>(context, listen: false).ak();
-  //  if( _audioFiles.isEmpty ){
-     _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
-  //  }else{
-  //   print("not null _audiofiles...............");
-  //  }
+    _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
     song = Provider.of<ProviderFile>(context, listen: false).i;
     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
     print(_audioFiles);
     print("isplayedor not====");
-    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(
+        "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     print(_audioFiles);
-    // print("mybox put 22 dataaas");
-    // mybox.put(22, _audioFiles);
-    // print(mybox.get(12));
-     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(
+        "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    h = Provider.of<ProviderFile>(context, listen: false).ListIndex;
+    Songnamelist = Provider.of<ProviderFile>(context, listen: false).SOngNAme;
   }
 
-  void dd(){
- setState(() {
-     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
- });
+  void dd() {
+    setState(() {
+      _IssongPlayed =
+          Provider.of<ProviderFile>(context, listen: false).isPlaying;
+    });
   }
 
   @override
-
   void initState() {
     // TODO: implement initState
     super.initState();
     d();
-    // addtoHive();
   }
-  // void addtoHive(){
-  //    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-  //    List li = _audioFiles.toList();
-  //   //  mybox.put(10, li);
-  //    print(mybox.get(10));
-  //     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +107,6 @@ class _Page1State extends State<Page1> {
                       height: 50,
                       width: 40,
                       decoration: BoxDecoration(
-                          // border: Border.all(),
                           borderRadius: BorderRadius.circular(100)),
                       child: Icon(Icons.now_widgets_outlined,
                           size: 25,
@@ -135,7 +118,6 @@ class _Page1State extends State<Page1> {
                       height: 50,
                       width: 40,
                       decoration: BoxDecoration(
-                          // border: Border.all(),
                           borderRadius: BorderRadius.circular(100)),
                       child: Icon(Icons.more_vert,
                           size: 24,
@@ -145,9 +127,6 @@ class _Page1State extends State<Page1> {
                     ),
                   ],
                 ),
-        
-
-
               ],
             ),
           ),
@@ -163,7 +142,6 @@ class _Page1State extends State<Page1> {
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(100),
-                // gradient: LinearGradient(colors: [Colors.grey.shade200,Colors.grey.shade50,Colors.grey.shade50])
                 color: BorW ? Colors.grey.shade400 : Colors.grey.shade300),
             child: Row(
               children: [
@@ -209,8 +187,6 @@ class _Page1State extends State<Page1> {
             height: 2,
           ),
           Divider(),
-
-          //  SizedBox(height: 400,),
           Container(
             height: 400,
             width: double.infinity,
@@ -220,15 +196,17 @@ class _Page1State extends State<Page1> {
                 final audioFile = _audioFiles[index];
                 return ListTile(
                   leading: Container(
-                    height: 35,
-                    width: 35,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(width: 1,color: Colors.grey)),
-                    alignment: Alignment.center,
-                    child: Image.asset("./images/music-logo-png-2350.png",fit: BoxFit.cover,color: BorW ? Colors.grey.shade500 : Colors.grey.shade500)
-                  ),
-
+                      height: 35,
+                      width: 35,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(width: 1, color: Colors.grey)),
+                      alignment: Alignment.center,
+                      child: Image.asset("./images/music-logo-png-2350.png",
+                          fit: BoxFit.cover,
+                          color: BorW
+                              ? Colors.grey.shade500
+                              : Colors.grey.shade500)),
                   title: Text(
                     audioFile.uri.pathSegments.last,
                     style: TextStyle(
@@ -236,31 +214,21 @@ class _Page1State extends State<Page1> {
                             BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                   ),
                   onTap: () {
-
-
-                        Provider.of<ProviderFile>(context, listen: false).ListIndex = index;
-                        Provider.of<ProviderFile>(context, listen: false).PLAY();
-
-
-
-                    // _playAudio(audioFile.path);
-                    // Provider.of<ProviderFile>(context, listen: false)
-                    //     .playAudio(audioFile.path);
-                    //     INDEX=audioFile.path;
+                   SnackBar(content: Text("Can't play!"));
+                    Provider.of<ProviderFile>(context, listen: false)
+                        .ListIndex = index;
+                    Provider.of<ProviderFile>(context, listen: false).PLAY();
+                    d();
+                    INDEX = audioFile.path;
                     setState(() {
                       _IssongPlayed = true;
                     });
-                    // Provider.of<ProviderFile>(context, listen: false)
-                    //     .setplayorpause(_IssongPlayed);
-
                     String sn = _audioFiles[index].toString();
 
                     List snn = sn.split('/');
+
                     setState(() {
                       song = snn[snn.length - 1];
-                      Provider.of<ProviderFile>(context, listen: false)
-                          .setnames(song);
-                      // INDEX = audioFile.path;
                     });
                     print(
                         "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
@@ -269,45 +237,24 @@ class _Page1State extends State<Page1> {
                     print(
                         "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
                   },
-                  // trailing:  _IssongPlayed
-                  //   ?
-                  //   IconButton(onPressed: () {
-                  //     Provider.of<ProviderFile>(context, listen: false).playAudio(INDEX);
-                  //      setState(() {
-                  //           _IssongPlayed=true;
-                  //         });
-                  //   }, icon: Icon(Icons.pause,color: BorW
-                  //           ? Colors.grey.shade200
-                  //           : Colors.grey.shade800 )):
-                  //   IconButton(
-                  //       onPressed: () {
-                  //         Provider.of<ProviderFile>(context, listen: false).pauseAudio(INDEX);
-                  //         setState(() {
-                  //           _IssongPlayed=false;
-                  //         });
-                  //       },
-                  //       icon: Icon(Icons.play_arrow,color: BorW
-                  //           ? Colors.grey.shade200
-                  //           : Colors.grey.shade800 ))
                 );
               },
             ),
           ),
-
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, 'page2',arguments: INDEX.toString());
+              Navigator.pushNamed(context, 'page2',
+                  arguments: INDEX.toString());
             },
             child: Container(
               height: 90,
               width: double.infinity,
               decoration: BoxDecoration(
                   border: Border.all(
-                    width: .5,
-                      color: BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
+                      width: .5,
+                      color:
+                          BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
               padding: EdgeInsets.only(left: 10, right: 10),
-              // child: TextButton(
-              // onPressed: _askStoragePermission, child: Text("permission")),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -317,7 +264,6 @@ class _Page1State extends State<Page1> {
                         height: 80,
                         width: 80,
                         decoration: BoxDecoration(
-                            // color: Colors.grey.shade300,
                             border: Border.all(
                                 width: 1,
                                 color: BorW
@@ -326,9 +272,10 @@ class _Page1State extends State<Page1> {
                             borderRadius: BorderRadius.circular(15)),
                         padding: EdgeInsets.all(8),
                         child: Image.asset(
-                          './images/show.png',color: BorW
-                                    ? Colors.grey.shade400
-                                    : Colors.grey.shade800,
+                          './images/show2.jpeg',
+                          color: BorW
+                              ? Colors.grey.shade400
+                              : Colors.grey.shade800,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -337,9 +284,8 @@ class _Page1State extends State<Page1> {
                       ),
                       Container(
                           width: 150,
-                          // color: Colors.grey.shade200,
                           child: Text(
-                            "$song",
+                            Songnamelist[h].toString(),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
@@ -349,64 +295,23 @@ class _Page1State extends State<Page1> {
                           )),
                     ],
                   ),
-            
-                    IconButton(
-                    
+                  IconButton(
                       onPressed: () {
-                      Provider.of<ProviderFile>(context, listen: false).mute();
-                    
-                     dd();
-                    }, 
-                    // icon:_IssongPlayed? Icon(Icons.pause):Icon(Icons.play_arrow) )
-                       icon: Provider.of<ProviderFile>(context,listen: false).isPlaying ? Icon(Icons.pause):Icon(Icons.play_arrow) )
+                        Provider.of<ProviderFile>(context, listen: false)
+                            .mute();
 
-                  // IconButton(
-                  //     onPressed: () {
-                  //       _IssongPlayed
-                  //           ? Provider.of<ProviderFile>(context, listen: false)
-                  //               .pauseAudio(INDEX)
-                  //           : Provider.of<ProviderFile>(context, listen: false)
-                  //               .playAudio(INDEX);
-                  //       setState(() {
-                  //         _IssongPlayed = !_IssongPlayed;
-                  //       });
-                  //       // Provider.of<ProviderFile>(context, listen: false)
-                  //       //     .setplayorpause(_IssongPlayed);
-                  //     },
-                  //     icon: _IssongPlayed
-                  //         ? Icon(Icons.pause,
-                  //             color: BorW
-                  //                 ? Colors.grey.shade200
-                  //                 : Colors.grey.shade800)
-                  //         : Icon(Icons.play_arrow,
-                  //             color: BorW
-                  //                 ? Colors.grey.shade200
-                  //                 : Colors.grey.shade800))
-            
-            
-            
-                  // _IssongPlayed
-                  //     ?
-                  //     IconButton(onPressed: () {
-                  //       Provider.of<ProviderFile>(context, listen: false).playAudio(INDEX);
-                  //       //  setState(() {
-                  //       //       _IssongPlayed=true;
-                  //       //     });
-                  //       dd();
-                  //     }, icon: Icon(Icons.pause,color: BorW
-                  //             ? Colors.grey.shade200
-                  //             : Colors.grey.shade800 )):
-                  //     IconButton(
-                  //         onPressed: () {
-                  //           Provider.of<ProviderFile>(context, listen: false).pauseAudio(INDEX);
-                  //           // setState(() {
-                  //           //   _IssongPlayed=false;
-                  //           // });
-                  //           dd();
-                  //         },
-                  //         icon: Icon(Icons.play_arrow,color: BorW
-                  //             ? Colors.grey.shade200
-                  //             : Colors.grey.shade800 ))
+                        dd();
+                      },
+                      icon: Provider.of<ProviderFile>(context, listen: false)
+                              .isPlaying
+                          ? Icon(Icons.pause,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800)
+                          : Icon(Icons.play_arrow,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800))
                 ],
               ),
             ),

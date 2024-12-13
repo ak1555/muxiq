@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
@@ -27,47 +29,20 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
   var mybox = Hive.box('mybox');
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  //  bool isMuted = false;
-
-  //    void toggleMute() {
-  //     _audioPlayer.setAsset('index');
-  //     print("<<<<<<<<<<<<<<<<<<<mutedfunction>>>>>>>>>>>>>>>>>>>");
-  //     print(index);
-  //   setState(() {
-  //     if (isMuted) {
-  //       _audioPlayer.setVolume(1.0);  // Unmute
-  //     } else {
-  //       _audioPlayer.setVolume(0);  // Mute
-  //     }
-  //     isMuted = !isMuted;
-  //   });
-
-  // }
-
   double sliderValue = 0;
   Duration max = const Duration(seconds: 120);
-
-  // Duration _songDuration = Duration.zero;
-  // Duration _currentPosition = Duration.zero;
-
   late bool BorW;
   late bool _issongPlayed;
+  int h = 0;
+  List Songnamelist=[];
 
   void d() {
-    //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
-    // print("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-    // // print(mybox.get(10));
-    // print("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
     setState(() {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
       _issongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
-      ls = mybox.get(22);
-      // if(mybox.get(22)!=null){
-      //   ls=mybox.get(22);
-      // }
-      // else{
-      //   print("==========mybox 22 is null");
-      // }
+      ls=Provider.of<ProviderFile>(context, listen: false).Songss;
+      h= Provider.of<ProviderFile>(context,listen: false).ListIndex;
+      Songnamelist=  Provider.of<ProviderFile>(context,listen: false).SOngNAme;
       print("MMMMMMMMMMM HIVE LS");
       print(ls);
     });
@@ -108,7 +83,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
     return Scaffold(
       appBar: AppBar(
         backgroundColor:
-            BorW ? const Color.fromARGB(255, 66, 66, 66) : Colors.grey.shade100,
+            BorW ? const Color.fromARGB(255, 48, 47, 47) : Colors.grey.shade100,
         title: Text(
           "PLAYLIST",
           style: TextStyle(
@@ -118,7 +93,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
         ),
       ),
       body: Container(
-        // color: const Color.fromARGB(255, 255, 255, 255),
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: BorW
@@ -128,23 +102,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            // Container(
-            //   height: 50,
-            //   width: double.infinity,
-            //   child: Center(
-            //     child: Text(
-            //       "PLAYLIST",
-            //       style: TextStyle(
-            //           fontWeight: FontWeight.bold,
-            //           fontSize: 19,
-            //           color: BorW ? Colors.grey.shade200 : Colors.black),
-            //     ),
-            //     // child: Text(
-            //     //   "Now Playing",
-            //     //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-            //     // ),
-            //   ),
-            // ),
             SizedBox(
               height: 10,
             ),
@@ -230,22 +187,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(150),
                             color: Colors.grey,
-                            // gradient: RadialGradient(
-                            //   colors: [
-                            //     Colors.grey.shade50,
-                            //     Colors.grey.shade400
-                            //   ],
-                            // )
                           ),
-                          // child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(150),
-                          //   child: Image.asset(
-                          //     "./images/mm.png",
-                          //     fit: BoxFit.cover,
-                          //     color: Colors.grey.shade300,
-                          //     colorBlendMode: BlendMode.modulate,
-                          //   ),
-                          // ),
                           alignment: Alignment.center,
                           child: Stack(
                             children: [
@@ -275,26 +217,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                               )
                             ],
                           ),
-                          // child: Container(
-                          //   height: 240,
-                          //   width: 240,
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(150),
-                          //     color: Colors.white,
-                          //   ),
-                          //   child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(150),
-                          //   child: Image.asset(
-                          //     "./images/music-logo-png-2350.png",
-                          //     fit: BoxFit.cover,
-                          //     color: Colors.grey.shade300,
-                          //     colorBlendMode: BlendMode.modulate,
-                          //   ),
-                          // ),
-                          // ),
                         ),
-                        // SizedBox(height: 50,),
-                        // Text("Song Name",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),)
                       ],
                     )
                   : Center(
@@ -331,9 +254,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           children: [
                             Center(
                               child: Text(
-                                  Provider.of<ProviderFile>(context,
-                                          listen: false)
-                                      .i,
+                                  Songnamelist[h].toString(),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: TextStyle(
@@ -358,7 +279,9 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                         )),
                         IconButton(
                             onPressed: () {
-                              if (mybox.get(11) != null) {
+
+
+       if (mybox.get(11) != null) {
                                 print("NOT NULL FAVORATE HIVE");
                                 List ls = mybox.get(11);
                                 ls.add(index);
@@ -378,6 +301,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                               setState(() {
                                 favorite = !favorite;
                               });
+
                             },
                             icon: favorite
                                 ? Icon(
@@ -407,7 +331,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                                 Provider.of<ProviderFile>(context,
                                         listen: false)
                                     .toggleMute();
-                                // toggleMute();
                               },
                               icon:Provider.of<ProviderFile>(context).isMuted? Icon(
                                 Icons.mic_off,
@@ -429,23 +352,22 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                             Expanded(
                               child: Container(
                                 height: 15,
-//                                 // width: double.infinity,
-//                                 // color: BorW
-//                                 //     ? Colors.grey.shade200
-//                                 //     : Colors.grey.shade900,
                                 child: SliderTheme(
                 data:
                 SliderTheme.of(context)
                     .copyWith(overlayShape: SliderComponentShape.noOverlay),
                 child: Container(
                   width: 350,
-                  // height: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Slider(
-                      activeColor: const Color.fromARGB(255, 206, 202, 202),
-                      inactiveColor: Colors.white,
+                      activeColor:  BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade600,
+                      inactiveColor:  BorW
+                                          ? Colors.grey.shade600
+                                          : Colors.grey.shade300,
                       thumbColor: Colors.grey,
                       min: 0.0,
                       max: _totalDuration.inSeconds.toDouble(),
@@ -466,32 +388,62 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "    0:00",
-                                style: TextStyle(
-                                  color: BorW
-                                      ? Colors.grey.shade200
-                                      : Colors.grey.shade900,
-                                ),
+                              Row(
+                                children: [
+                                  Text(
+                                    _currentPosition.inMinutes.toString(),
+                                    style: TextStyle(
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),
+                                  ),
+                                  Text(":", style: TextStyle(
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),),
+                                  Text(
+                                    _currentPosition.inSeconds.toString(),
+                                    style: TextStyle(
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "04:30",
-                                style: TextStyle(
-                                  color: BorW
-                                      ? Colors.grey.shade200
-                                      : Colors.grey.shade900,
-                                ),
-                              )
+                              Row(
+                                children: [
+                                  Text(
+                                    _totalDuration.inMinutes.toString(),
+                                    style: TextStyle(
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),
+                                  ),
+                                  Text(":", style: TextStyle(
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),),
+                                  Text(
+                                    _totalDuration.inSeconds.toString(),
+                                    style: TextStyle(
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         )
                       ],
                     ),
                   ),
-
-                  // SizedBox(
-                  //   height: 25,
-                  // ),
                   Container(
                     height: 80,
                     width: double.infinity,
@@ -510,7 +462,10 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<ProviderFile>(context, listen: false).PRESONG();
+                            d();
+                          },
                           icon: Icon(
                             Icons.skip_previous_outlined,
                             size: 32,
@@ -521,7 +476,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                         ),
                         IconButton(
                           onPressed: () {
-                            // Provider.of<ProviderFile>(context,listen: false).toggleAudio(index);
                             Provider.of<ProviderFile>(context, listen: false)
                                 .mute();
                             d();
@@ -546,12 +500,10 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           onPressed: ()async {
 
 
-                            //   List l=  Provider.of<ProviderFile>(context, listen: false).Songss;
-                            // String pp = l[index+1].toString();
-                            // print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^ NEXT SONG NAME^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-                            // print(pp);
-
-
+                              List l=  Provider.of<ProviderFile>(context, listen: false).Songss;
+                              int o=  Provider.of<ProviderFile>(context, listen: false).ListIndex;
+                               Provider.of<ProviderFile>(context, listen: false).NEXTSONG();
+                               d();
                     
                           },
                           icon: Icon(

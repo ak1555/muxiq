@@ -19,12 +19,36 @@ class _Page3State extends State<Page3> {
   var mybox = Hive.box("mybox");
   String? song;
   String? singer;
+  bool _isPlayingorNot = false;
+
+  int h = 0;
+  List Songnamelist=[];
   void d() {
-    //  Provider.of<ProviderFile>(context,listen: false).blckandwhte(true);
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
+  
     print(BorW);
     if (mybox.get(11) != null) {
       ls = mybox.get(11);
+int v=ls.length;
+                    for(int k=0;k<=v;k++){
+try {
+                      String a = ls[k].toString();
+
+                    List snn = a.split('/');
+
+                    String b = snn[snn.length - 1].toString();
+                    List EDse = b.split('-');
+                   String song = EDse[0];
+                    Songnamelist.add(song);
+                    // List kkkk = c.split(',');
+                    // singer = kkkk[0];
+                    print("HI");
+} catch (e) {
+  print(e);
+}
+}
+
+
     } else {
       print(
           "{{{{{{{{{{{{{{{{{{{{{{{{{{{ EMPTY MYBOX }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
@@ -33,22 +57,15 @@ class _Page3State extends State<Page3> {
 
   AudioPlayer _audioPlayer = AudioPlayer();
 
-  // final List<String> _songs = [];
-
   Future<void> initializePlaylist() async {
     final playlist = ConcatenatingAudioSource(
       children: ls.map((song) => AudioSource.uri(Uri.parse(song))).toList(),
     );
 
-    // Set the playlist
     await _audioPlayer.setAudioSource(playlist);
   }
 
   Future<void> play() => _audioPlayer.play();
-  // Future<void> play(int ind)async {
-  //   _audioPlayer=ls[ind];
-  //  await _audioPlayer.play();
-  // }
 
   Future<void> pause() => _audioPlayer.pause();
 
@@ -57,6 +74,8 @@ class _Page3State extends State<Page3> {
   }
 
   Future<void> previous() => _audioPlayer.seekToPrevious();
+
+    Future<void> Shuffle() => _audioPlayer.shuffle();
 
   void dispose() {
     _audioPlayer.dispose();
@@ -73,7 +92,6 @@ class _Page3State extends State<Page3> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color:  const Color.fromARGB(255, 255, 255, 255),
       decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: BorW
@@ -84,7 +102,6 @@ class _Page3State extends State<Page3> {
           Container(
             height: 155,
             width: double.infinity,
-            // alignment: Alignment.center,
             margin: EdgeInsets.only(left: 10, right: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,7 +151,6 @@ class _Page3State extends State<Page3> {
           ),
           Expanded(
               child: Container(
-            // color: Colors.grey.shade100,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: BorW
@@ -169,8 +185,6 @@ class _Page3State extends State<Page3> {
                       onTap: () async {
                         print("ontapped");
                         await play();
-                        // await  Provider.of<ProviderFile>(context,listen: false).favplay();
-                        // Navigator.pushNamed(context, "fav");
                       },
                       child: Container(
                         margin: EdgeInsets.only(
@@ -221,12 +235,12 @@ class _Page3State extends State<Page3> {
                               ),
                             )),
                             Container(
-                                height: 39,
-                                width: 39,
+                                height: 35,
+                                width: 35,
                                 decoration: BoxDecoration(
                                     color: BorW
-                                        ? Colors.grey.shade200
-                                        : Colors.grey.shade500,
+                                        ? Colors.grey.shade600
+                                        : Colors.grey.shade400,
                                     borderRadius: BorderRadius.circular(200),
                                     boxShadow: [
                                       BoxShadow(
@@ -235,15 +249,11 @@ class _Page3State extends State<Page3> {
                                           offset: Offset(0, 3),
                                           color: Colors.grey)
                                     ]),
-                                // alignment: Alignment.center,
                                 child: IconButton(
                                     onPressed: () {
-                                      // Provider.of<ProviderFile>(context,
-                                      //         listen: false)
-                                      //     .favnxt();
                                     },
                                     icon: Icon(
-                                      Icons.more_vert,
+                                      Icons.more_vert,size: 17,
                                       color: Colors.white,
                                     ))),
                           ],
@@ -251,7 +261,110 @@ class _Page3State extends State<Page3> {
                       ),
                     );
                   },
-                ))
+                )),
+                Container(
+              height: 85,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    width: .5,
+                      color: BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1,
+                                color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800),
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: EdgeInsets.all(8),
+                        child: Image.asset(
+                          './images/show.png',color: BorW
+                                    ? Colors.grey.shade400
+                                    : Colors.grey.shade800,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                          width: 100,
+                          child: Text(
+                            Songnamelist[h].toString(),
+                            // "sss",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: TextStyle(
+                                color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800),
+                          )
+                          ),
+                    ],
+                  ),
+            
+                    IconButton(
+                      onPressed: () {
+                    previous();
+                    setState(() {
+                      h=h-1;
+                    });
+                    }, 
+                       icon:
+                      Icon(Icons.skip_previous_rounded,color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800)
+                        ),
+                        _isPlayingorNot? IconButton(
+                      onPressed: () {
+                   
+                    setState(() {
+                       play();
+                      _isPlayingorNot=false;
+                    });
+                    }, 
+                       icon:
+                      Icon(Icons.play_arrow,color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800)
+                        ):IconButton(
+                      onPressed: () {
+                    
+                    setState(() {
+                      pause();
+                      _isPlayingorNot=true;
+                    });
+                    }, 
+                       icon:
+                      Icon(Icons.pause,color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800)
+                        )
+                        ,
+                         IconButton(
+                      onPressed: () {
+                    next();
+                    setState(() {
+                      h=h+1;
+                    });
+                    }, 
+                       icon:
+                      Icon(Icons.skip_next_rounded,color: BorW
+                                    ? Colors.grey.shade200
+                                    : Colors.grey.shade800)
+                        )
+                ],
+              ),
+            ),
               ],
             ),
           ))
