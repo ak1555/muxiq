@@ -15,7 +15,7 @@ class Page2 extends StatefulWidget {
   State<Page2> createState() => _Page2State();
 }
 
-class _Page2State extends State<Page2> {
+class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
   bool play = true;
   bool lyrics = false;
   bool favorite = false;
@@ -47,8 +47,8 @@ class _Page2State extends State<Page2> {
   double sliderValue = 0;
   Duration max = const Duration(seconds: 120);
 
-  Duration _songDuration = Duration.zero;
-  Duration _currentPosition = Duration.zero;
+  // Duration _songDuration = Duration.zero;
+  // Duration _currentPosition = Duration.zero;
 
   late bool BorW;
   late bool _issongPlayed;
@@ -73,12 +73,33 @@ class _Page2State extends State<Page2> {
     });
     print(BorW);
   }
-
+ Duration _currentPosition = Duration.zero;
+  Duration _totalDuration = Duration.zero;
+    late AnimationController _controller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     d();
+      _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    Future.delayed(
+      Duration(milliseconds: 5),
+      () => Provider.of<ProviderFile>(context, listen: false).PLAY(),
+    );
+    Provider.of<ProviderFile>(context, listen: false).audioPlayer.positionStream.listen((position) {
+      if (mounted) {
+        setState(() {
+          _currentPosition = position;
+        });
+      }
+    });
+
+    Provider.of<ProviderFile>(context, listen: false).audioPlayer.durationStream.listen((duration) {
+      setState(() {
+        _totalDuration = duration ?? Duration.zero;
+      });
+    });
   }
 
   @override
@@ -412,15 +433,31 @@ class _Page2State extends State<Page2> {
 //                                 // color: BorW
 //                                 //     ? Colors.grey.shade200
 //                                 //     : Colors.grey.shade900,
-                                child: Slider(
-                                  min: 0,
-                                  max: _songDuration.inSeconds.toDouble(),
-                                  value: _currentPosition.inSeconds
-                                      .toDouble()
-                                      .clamp(0.0,
-                                          _songDuration.inSeconds.toDouble()),
-                                  onChanged: (value) {},
-                                ),
+                                child: SliderTheme(
+                data:
+                SliderTheme.of(context)
+                    .copyWith(overlayShape: SliderComponentShape.noOverlay),
+                child: Container(
+                  width: 350,
+                  // height: 5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Slider(
+                      activeColor: const Color.fromARGB(255, 206, 202, 202),
+                      inactiveColor: Colors.white,
+                      thumbColor: Colors.grey,
+                      min: 0.0,
+                      max: _totalDuration.inSeconds.toDouble(),
+                      value: _currentPosition.inSeconds
+                          .toDouble()
+                          .clamp(0.0, _totalDuration.inSeconds.toDouble()),
+                      onChanged: (value) {
+                        final newPosition = Duration(seconds: value.round());
+                        Provider.of<ProviderFile>(context, listen: false).audioPlayer.seek(newPosition);
+                      }),
+                ),
+              ),
                               ),
                             ),
                           ],

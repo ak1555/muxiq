@@ -238,9 +238,9 @@ class _Page3State extends State<Page3> {
                                 // alignment: Alignment.center,
                                 child: IconButton(
                                     onPressed: () {
-                                      Provider.of<ProviderFile>(context,
-                                              listen: false)
-                                          .favnxt();
+                                      // Provider.of<ProviderFile>(context,
+                                      //         listen: false)
+                                      //     .favnxt();
                                     },
                                     icon: Icon(
                                       Icons.more_vert,

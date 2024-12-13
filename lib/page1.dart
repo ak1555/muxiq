@@ -1,5 +1,6 @@
 // import 'dart:io';
 
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -29,21 +30,21 @@ class _Page1State extends State<Page1> {
   void d() {
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     Provider.of<ProviderFile>(context, listen: false).ak();
-   if( _audioFiles.isEmpty ){
+  //  if( _audioFiles.isEmpty ){
      _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
-   }else{
-    print("not null _audiofiles...............");
-   }
+  //  }else{
+  //   print("not null _audiofiles...............");
+  //  }
     song = Provider.of<ProviderFile>(context, listen: false).i;
     _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
     print(_audioFiles);
     print("isplayedor not====");
-    // print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    // print(_audioFiles);
+    print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(_audioFiles);
     // print("mybox put 22 dataaas");
     // mybox.put(22, _audioFiles);
     // print(mybox.get(12));
-    //  print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+     print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   }
 
   void dd(){
@@ -235,10 +236,17 @@ class _Page1State extends State<Page1> {
                             BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                   ),
                   onTap: () {
+
+
+                        Provider.of<ProviderFile>(context, listen: false).ListIndex = index;
+                        Provider.of<ProviderFile>(context, listen: false).PLAY();
+
+
+
                     // _playAudio(audioFile.path);
-                    Provider.of<ProviderFile>(context, listen: false)
-                        .playAudio(audioFile.path);
-                        INDEX=audioFile.path;
+                    // Provider.of<ProviderFile>(context, listen: false)
+                    //     .playAudio(audioFile.path);
+                    //     INDEX=audioFile.path;
                     setState(() {
                       _IssongPlayed = true;
                     });
