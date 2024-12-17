@@ -167,7 +167,8 @@ try {
                   height: 10,
                 ),
                 Expanded(
-                    child: ListView.builder(
+                    child:
+                    ls.isNotEmpty? ListView.builder(
                   itemCount: ls.length,
                   itemBuilder: (context, index) {
                     String a = ls[index].toString();
@@ -261,7 +262,10 @@ try {
                       ),
                     );
                   },
-                )),
+                )
+                :
+                Center(child: Text("Empty Favorates"),)
+                ),
                 Container(
               height: 85,
               width: double.infinity,

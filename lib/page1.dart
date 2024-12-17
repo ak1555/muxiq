@@ -23,7 +23,8 @@ class _Page1State extends State<Page1> {
   late bool BorW;
   static late bool _IssongPlayed;
   void d() {
-    BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
+try {
+      BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
     Provider.of<ProviderFile>(context, listen: false).ak();
     _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
     song = Provider.of<ProviderFile>(context, listen: false).i;
@@ -37,6 +38,10 @@ class _Page1State extends State<Page1> {
         "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     h = Provider.of<ProviderFile>(context, listen: false).ListIndex;
     Songnamelist = Provider.of<ProviderFile>(context, listen: false).SOngNAme;
+} catch (e) {
+  print(e);
+}
+
   }
 
   void dd() {
@@ -51,6 +56,7 @@ class _Page1State extends State<Page1> {
     // TODO: implement initState
     super.initState();
     d();
+    dd();
   }
 
   @override
@@ -104,7 +110,7 @@ class _Page1State extends State<Page1> {
                 Row(
                   children: [
                     Container(
-                      height: 50,
+                      height: 46,
                       width: 40,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100)),
@@ -115,7 +121,7 @@ class _Page1State extends State<Page1> {
                               : Colors.grey.shade600),
                     ),
                     Container(
-                      height: 50,
+                      height: 46,
                       width: 40,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100)),
@@ -190,12 +196,13 @@ class _Page1State extends State<Page1> {
           Container(
             height: 400,
             width: double.infinity,
-            child: ListView.builder(
+            child:_audioFiles.isNotEmpty? ListView.builder(
               itemCount: _audioFiles.length,
               itemBuilder: (context, index) {
                 final audioFile = _audioFiles[index];
                 return ListTile(
                   leading: Container(
+                    margin: EdgeInsets.only(top: 5,bottom: 5),
                       height: 35,
                       width: 35,
                       decoration: BoxDecoration(
@@ -203,18 +210,21 @@ class _Page1State extends State<Page1> {
                           border: Border.all(width: 1, color: Colors.grey)),
                       alignment: Alignment.center,
                       child: Image.asset("./images/music-logo-png-2350.png",
+                      // child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl0a4UTw7QS3RHB4_rZ1JUkcjNEre9RjlBWQ&s",
                           fit: BoxFit.cover,
                           color: BorW
                               ? Colors.grey.shade500
                               : Colors.grey.shade500)),
                   title: Text(
                     audioFile.uri.pathSegments.last,
-                    style: TextStyle(
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 15.5,
                         color:
                             BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                   ),
                   onTap: () {
-                   SnackBar(content: Text("Can't play!"));
+                  //  SnackBar(content: Text("Can't play!"));
                     Provider.of<ProviderFile>(context, listen: false)
                         .ListIndex = index;
                     Provider.of<ProviderFile>(context, listen: false).PLAY();
@@ -236,86 +246,90 @@ class _Page1State extends State<Page1> {
                     print(snn[snn.length - 1]);
                     print(
                         "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
+
+                        Navigator.pushNamed(context, "page2" , arguments: INDEX.toString());
                   },
                 );
               },
-            ),
+            )
+            :
+            Center(child: Text("Empty data"),),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, 'page2',
-                  arguments: INDEX.toString());
-            },
-            child: Container(
-              height: 90,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      width: .5,
-                      color:
-                          BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1,
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800),
-                            borderRadius: BorderRadius.circular(15)),
-                        padding: EdgeInsets.all(8),
-                        child: Image.asset(
-                          './images/show2.jpeg',
-                          color: BorW
-                              ? Colors.grey.shade400
-                              : Colors.grey.shade800,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Container(
-                          width: 150,
-                          child: Text(
-                            Songnamelist[h].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800),
-                          )),
-                    ],
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        Provider.of<ProviderFile>(context, listen: false)
-                            .mute();
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.pushNamed(context, 'page2',
+          //         arguments: INDEX.toString());
+          //   },
+          //   child: Container(
+          //     height: 90,
+          //     width: double.infinity,
+          //     decoration: BoxDecoration(
+          //         border: Border.all(
+          //             width: .5,
+          //             color:
+          //                 BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
+          //     padding: EdgeInsets.only(left: 10, right: 10),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Row(
+          //           children: [
+          //             Container(
+          //               height: 80,
+          //               width: 80,
+          //               decoration: BoxDecoration(
+          //                   border: Border.all(
+          //                       width: 1,
+          //                       color: BorW
+          //                           ? Colors.grey.shade200
+          //                           : Colors.grey.shade800),
+          //                   borderRadius: BorderRadius.circular(15)),
+          //               padding: EdgeInsets.all(8),
+          //               child: Image.asset(
+          //                 './images/show2.jpeg',
+          //                 color: BorW
+          //                     ? Colors.grey.shade400
+          //                     : Colors.grey.shade800,
+          //                 fit: BoxFit.contain,
+          //               ),
+          //             ),
+          //             SizedBox(
+          //               width: 15,
+          //             ),
+          //             Container(
+          //                 width: 150,
+          //                 child: Text(
+          //                   Songnamelist[h].toString(),
+          //                   overflow: TextOverflow.ellipsis,
+          //                   maxLines: 2,
+          //                   style: TextStyle(
+          //                       color: BorW
+          //                           ? Colors.grey.shade200
+          //                           : Colors.grey.shade800),
+          //                 )),
+          //           ],
+          //         ),
+          //         IconButton(
+          //             onPressed: () {
+          //               Provider.of<ProviderFile>(context, listen: false)
+          //                   .mute();
 
-                        dd();
-                      },
-                      icon: Provider.of<ProviderFile>(context, listen: false)
-                              .isPlaying
-                          ? Icon(Icons.pause,
-                              color: BorW
-                                  ? Colors.grey.shade200
-                                  : Colors.grey.shade800)
-                          : Icon(Icons.play_arrow,
-                              color: BorW
-                                  ? Colors.grey.shade200
-                                  : Colors.grey.shade800))
-                ],
-              ),
-            ),
-          )
+          //               dd();
+          //             },
+          //             icon: Provider.of<ProviderFile>(context, listen: false)
+          //                     .isPlaying
+          //                 ? Icon(Icons.pause,
+          //                     color: BorW
+          //                         ? Colors.grey.shade200
+          //                         : Colors.grey.shade800)
+          //                 : Icon(Icons.play_arrow,
+          //                     color: BorW
+          //                         ? Colors.grey.shade200
+          //                         : Colors.grey.shade800))
+          //       ],
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

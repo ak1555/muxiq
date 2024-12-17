@@ -37,7 +37,8 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
   List Songnamelist=[];
 
   void d() {
-    setState(() {
+  // try {
+      setState(() {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
       _issongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
       ls=Provider.of<ProviderFile>(context, listen: false).Songss;
@@ -47,6 +48,9 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
       print(ls);
     });
     print(BorW);
+  // } catch (e) {
+  //   print(e);
+  // }
   }
  Duration _currentPosition = Duration.zero;
   Duration _totalDuration = Duration.zero;
