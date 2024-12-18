@@ -116,6 +116,7 @@ d();
             icon: pageIndex == 0
                 ?  Icon(
                     Icons.home_filled,
+                    // color: BorW ? Colors.grey.shade400:Colors.blue.shade900,
                     color: BorW ? Colors.grey.shade400:const Color.fromARGB(255, 73, 73, 73),
                     size: 33,
                   )
@@ -172,7 +173,8 @@ d();
             icon: pageIndex == 2
                 ?  Icon(
                     Icons.person,
-                   color:BorW ? Colors.grey.shade400:const Color.fromARGB(255, 73, 73, 73),
+                  //  color:BorW ? Colors.grey.shade400:const Color.fromARGB(255, 73, 73, 73),
+                  color: BorW ? Colors.grey.shade400:Colors.blue.shade900,
                     size: 33,
                   )
                 :  Icon(

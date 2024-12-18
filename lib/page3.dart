@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lottie/lottie.dart';
 import 'package:muxiq/Provider/pp.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:muxiq/favext.dart';
@@ -22,33 +23,31 @@ class _Page3State extends State<Page3> {
   bool _isPlayingorNot = false;
 
   int h = 0;
-  List Songnamelist=[];
+  List Songnamelist = [];
   void d() {
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
-  
+
     print(BorW);
     if (mybox.get(11) != null) {
       ls = mybox.get(11);
-int v=ls.length;
-                    for(int k=0;k<=v;k++){
-try {
-                      String a = ls[k].toString();
+      int v = ls.length;
+      for (int k = 0; k <= v; k++) {
+        try {
+          String a = ls[k].toString();
 
-                    List snn = a.split('/');
+          List snn = a.split('/');
 
-                    String b = snn[snn.length - 1].toString();
-                    List EDse = b.split('-');
-                   String song = EDse[0];
-                    Songnamelist.add(song);
-                    // List kkkk = c.split(',');
-                    // singer = kkkk[0];
-                    print("HI");
-} catch (e) {
-  print(e);
-}
-}
-
-
+          String b = snn[snn.length - 1].toString();
+          List EDse = b.split('-');
+          String song = EDse[0];
+          Songnamelist.add(song);
+          // List kkkk = c.split(',');
+          // singer = kkkk[0];
+          print("HI");
+        } catch (e) {
+          print(e);
+        }
+      }
     } else {
       print(
           "{{{{{{{{{{{{{{{{{{{{{{{{{{{ EMPTY MYBOX }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
@@ -75,7 +74,7 @@ try {
 
   Future<void> previous() => _audioPlayer.seekToPrevious();
 
-    Future<void> Shuffle() => _audioPlayer.shuffle();
+  Future<void> Shuffle() => _audioPlayer.shuffle();
 
   void dispose() {
     _audioPlayer.dispose();
@@ -87,6 +86,9 @@ try {
     super.initState();
     d();
     initializePlaylist();
+    setState(() {
+      _isPlayingorNot=true;
+    });
   }
 
   @override
@@ -167,208 +169,214 @@ try {
                   height: 10,
                 ),
                 Expanded(
-                    child:
-                    ls.isNotEmpty? ListView.builder(
-                  itemCount: ls.length,
-                  itemBuilder: (context, index) {
-                    String a = ls[index].toString();
+                    child: ls.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: ls.length,
+                            itemBuilder: (context, index) {
+                              String a = ls[index].toString();
 
-                    List snn = a.split('/');
+                              List snn = a.split('/');
 
-                    String b = snn[snn.length - 1].toString();
-                    List EDse = b.split('-');
-                    song = EDse[0];
-                    String c = EDse[1].toString();
-                    List kkkk = c.split(',');
-                    singer = kkkk[0];
+                              String b = snn[snn.length - 1].toString();
+                              List EDse = b.split('-');
+                              song = EDse[0];
+                              String c = EDse[1].toString();
+                              List kkkk = c.split(',');
+                              singer = kkkk[0];
 
-                    return GestureDetector(
-                      onTap: () async {
-                        print("ontapped");
-                        await play();
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 13, right: 12, top: 11, bottom: 11),
-                        child: Row(
-                          children: [
-                            Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                        width: 1, color: Colors.grey)),
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                    "./images/music-logo-png-2350.png",
-                                    fit: BoxFit.cover,
-                                    color: BorW
-                                        ? Colors.grey.shade500
-                                        : Colors.grey.shade500)),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
+                              return GestureDetector(
+                                onTap: () async {
+                                  print("ontapped");
+                                  await play();
+                                },
                                 child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    song.toString(),
-                                    style: TextStyle(
-                                        color: BorW
-                                            ? Colors.grey.shade200
-                                            : Colors.grey.shade900,
-                                        fontWeight: FontWeight.bold),
+                                  margin: EdgeInsets.only(
+                                      left: 13, right: 12, top: 11, bottom: 11),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          height: 35,
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.grey)),
+                                          alignment: Alignment.center,
+                                          child: Image.asset(
+                                              "./images/music-logo-png-2350.png",
+                                              fit: BoxFit.cover,
+                                              color: BorW
+                                                  ? Colors.grey.shade500
+                                                  : Colors.grey.shade500)),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                          child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              song.toString(),
+                                              style: TextStyle(
+                                                  color: BorW
+                                                      ? Colors.grey.shade200
+                                                      : Colors.grey.shade900,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: 3,
+                                            ),
+                                            Text(
+                                              singer.toString(),
+                                              style: TextStyle(
+                                                  color: BorW
+                                                      ? Colors.grey.shade200
+                                                      : Colors.grey.shade800),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                      Container(
+                                          height: 35,
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                              color: BorW
+                                                  ? Colors.grey.shade600
+                                                  : Colors.grey.shade400,
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    blurRadius: 3,
+                                                    spreadRadius: 0,
+                                                    offset: Offset(0, 3),
+                                                    color: Colors.grey)
+                                              ]),
+                                          child: IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(
+                                                Icons.more_vert,
+                                                size: 17,
+                                                color: Colors.white,
+                                              ))),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    singer.toString(),
-                                    style: TextStyle(
-                                        color: BorW
-                                            ? Colors.grey.shade200
-                                            : Colors.grey.shade800),
-                                  )
-                                ],
-                              ),
-                            )),
-                            Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                    color: BorW
-                                        ? Colors.grey.shade600
-                                        : Colors.grey.shade400,
-                                    borderRadius: BorderRadius.circular(200),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          blurRadius: 3,
-                                          spreadRadius: 0,
-                                          offset: Offset(0, 3),
-                                          color: Colors.grey)
-                                    ]),
-                                child: IconButton(
-                                    onPressed: () {
-                                    },
-                                    icon: Icon(
-                                      Icons.more_vert,size: 17,
-                                      color: Colors.white,
-                                    ))),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                )
-                :
-                Center(child: Text("Empty Favorates"),)
-                ),
-                Container(
-              height: 85,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    width: .5,
-                      color: BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1,
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800),
-                            borderRadius: BorderRadius.circular(15)),
-                        padding: EdgeInsets.all(8),
-                        child: Image.asset(
-                          './images/show.png',color: BorW
-                                    ? Colors.grey.shade400
-                                    : Colors.grey.shade800,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Container(
-                          width: 100,
-                          child: Text(
-                            Songnamelist[h].toString(),
-                            // "sss",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800),
+                                ),
+                              );
+                            },
                           )
+                        : Center(
+                            child: Text("Empty Favorates"),
+                          )),
+                Container(
+                  height: 85,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          width: .5,
+                          color: BorW
+                              ? Colors.grey.shade400
+                              : Colors.grey.shade800)),
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 80,
+                            width: 80,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade800),
+                                borderRadius: BorderRadius.circular(15)),
+                            // padding: EdgeInsets.all(8),
+                            // child: Image.asset(
+                            //   './images/bio.png',
+                            //   // color: BorW
+                            //             // ? Colors.grey.shade400
+                            //             // : Colors.grey.shade800,
+                            //   fit: BoxFit.contain,
+                            // ),
+                            child: Lottie.network(
+                              'https://lottie.host/0e905ffb-b376-44bb-8c4f-7370e20bbdbe/TeO8913cwR.json',
+                              animate: _isPlayingorNot ? false : true,
+                              fit: BoxFit.fill,
+                              // delegates:LottieDelegates(values: [ValueDelegate.color(const ['Shape Layer 1', 'Rectangle', 'Fill 1'],value: Colors.red)])
+                            ),
                           ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Container(
+                              width: 100,
+                              child: Text(
+                                Songnamelist[h].toString(),
+                                // "sss",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade800),
+                              )),
+                        ],
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            previous();
+                            setState(() {
+                              h = h - 1;
+                            });
+                          },
+                          icon: Icon(Icons.skip_previous_rounded,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800)),
+                      _isPlayingorNot
+                          ? IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  play();
+                                  _isPlayingorNot = false;
+                                });
+                              },
+                              icon: Icon(Icons.play_arrow,
+                                  color: BorW
+                                      ? Colors.grey.shade200
+                                      : Colors.grey.shade800))
+                          : IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  pause();
+                                  _isPlayingorNot = true;
+                                });
+                              },
+                              icon: Icon(Icons.pause,
+                                  color: BorW
+                                      ? Colors.grey.shade200
+                                      : Colors.grey.shade800)),
+                      IconButton(
+                          onPressed: () {
+                            next();
+                            setState(() {
+                              h = h + 1;
+                            });
+                          },
+                          icon: Icon(Icons.skip_next_rounded,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800))
                     ],
                   ),
-            
-                    IconButton(
-                      onPressed: () {
-                    previous();
-                    setState(() {
-                      h=h-1;
-                    });
-                    }, 
-                       icon:
-                      Icon(Icons.skip_previous_rounded,color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800)
-                        ),
-                        _isPlayingorNot? IconButton(
-                      onPressed: () {
-                   
-                    setState(() {
-                       play();
-                      _isPlayingorNot=false;
-                    });
-                    }, 
-                       icon:
-                      Icon(Icons.play_arrow,color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800)
-                        ):IconButton(
-                      onPressed: () {
-                    
-                    setState(() {
-                      pause();
-                      _isPlayingorNot=true;
-                    });
-                    }, 
-                       icon:
-                      Icon(Icons.pause,color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800)
-                        )
-                        ,
-                         IconButton(
-                      onPressed: () {
-                    next();
-                    setState(() {
-                      h=h+1;
-                    });
-                    }, 
-                       icon:
-                      Icon(Icons.skip_next_rounded,color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade800)
-                        )
-                ],
-              ),
-            ),
+                ),
               ],
             ),
           ))

@@ -17,12 +17,12 @@ class Page2 extends StatefulWidget {
   State<Page2> createState() => _Page2State();
 }
 
-class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
+class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
   bool play = true;
   bool lyrics = false;
   bool favorite = false;
   bool pause = true;
-  bool t= true;
+  bool t = true;
   String? index;
   List ls = [];
 
@@ -34,39 +34,44 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
   late bool BorW;
   late bool _issongPlayed;
   int h = 0;
-  List Songnamelist=[];
+  List Songnamelist = [];
 
   void d() {
-  // try {
-      setState(() {
+    // try {
+    setState(() {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
-      _issongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
-      ls=Provider.of<ProviderFile>(context, listen: false).Songss;
-      h= Provider.of<ProviderFile>(context,listen: false).ListIndex;
-      Songnamelist=  Provider.of<ProviderFile>(context,listen: false).SOngNAme;
+      _issongPlayed =
+          Provider.of<ProviderFile>(context, listen: false).isPlaying;
+      ls = Provider.of<ProviderFile>(context, listen: false).Songss;
+      h = Provider.of<ProviderFile>(context, listen: false).ListIndex;
+      Songnamelist = Provider.of<ProviderFile>(context, listen: false).SOngNAme;
       print("MMMMMMMMMMM HIVE LS");
       print(ls);
     });
     print(BorW);
-  // } catch (e) {
-  //   print(e);
-  // }
+    // } catch (e) {
+    //   print(e);
+    // }
   }
- Duration _currentPosition = Duration.zero;
+
+  Duration _currentPosition = Duration.zero;
   Duration _totalDuration = Duration.zero;
-    late AnimationController _controller;
+  late AnimationController _controller;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     d();
-      _controller =
+    _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     Future.delayed(
       Duration(milliseconds: 5),
       () => Provider.of<ProviderFile>(context, listen: false).PLAY(),
     );
-    Provider.of<ProviderFile>(context, listen: false).audioPlayer.positionStream.listen((position) {
+    Provider.of<ProviderFile>(context, listen: false)
+        .audioPlayer
+        .positionStream
+        .listen((position) {
       if (mounted) {
         setState(() {
           _currentPosition = position;
@@ -74,7 +79,10 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
       }
     });
 
-    Provider.of<ProviderFile>(context, listen: false).audioPlayer.durationStream.listen((duration) {
+    Provider.of<ProviderFile>(context, listen: false)
+        .audioPlayer
+        .durationStream
+        .listen((duration) {
       setState(() {
         _totalDuration = duration ?? Duration.zero;
       });
@@ -83,7 +91,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    index =ModalRoute.of(context)?.settings.arguments as String;
+    index = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         backgroundColor:
@@ -184,7 +192,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                         SizedBox(
                           height: 30,
                         ),
-
                         Container(
                           height: 210,
                           width: 210,
@@ -195,7 +202,8 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           alignment: Alignment.center,
                           child: Stack(
                             children: [
-                              Provider.of<ProviderFile>(context,listen: false).isPlaying
+                              Provider.of<ProviderFile>(context, listen: false)
+                                      .isPlaying
                                   ? Lottie.asset('./lottie/ll.json')
                                   : Container(),
                               Positioned(
@@ -257,8 +265,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
-                              child: Text(
-                                  Songnamelist[h].toString(),
+                              child: Text(Songnamelist[h].toString(),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
                                   style: TextStyle(
@@ -283,9 +290,7 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                         )),
                         IconButton(
                             onPressed: () {
-
-
-       if (mybox.get(11) != null) {
+                              if (mybox.get(11) != null) {
                                 print("NOT NULL FAVORATE HIVE");
                                 List ls = mybox.get(11);
                                 ls.add(index);
@@ -305,7 +310,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                               setState(() {
                                 favorite = !favorite;
                               });
-
                             },
                             icon: favorite
                                 ? Icon(
@@ -336,19 +340,21 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                                         listen: false)
                                     .toggleMute();
                               },
-                              icon:Provider.of<ProviderFile>(context).isMuted? Icon(
-                                Icons.mic_off,
-                                size: 17,
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade900,
-                              ): Icon(
-                                Icons.mic,
-                                size: 17,
-                                color: BorW
-                                    ? Colors.grey.shade200
-                                    : Colors.grey.shade900,
-                              ) ,
+                              icon: Provider.of<ProviderFile>(context).isMuted
+                                  ? Icon(
+                                      Icons.mic_off,
+                                      size: 17,
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    )
+                                  : Icon(
+                                      Icons.mic,
+                                      size: 17,
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),
                             ),
                             SizedBox(
                               width: 2.5,
@@ -357,33 +363,41 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                               child: Container(
                                 height: 15,
                                 child: SliderTheme(
-                data:
-                SliderTheme.of(context)
-                    .copyWith(overlayShape: SliderComponentShape.noOverlay),
-                child: Container(
-                  width: 350,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Slider(
-                      activeColor:  BorW
-                                          ? Colors.grey.shade200
-                                          : Colors.grey.shade600,
-                      inactiveColor:  BorW
-                                          ? Colors.grey.shade600
-                                          : Colors.grey.shade300,
-                      thumbColor: Colors.grey,
-                      min: 0.0,
-                      max: _totalDuration.inSeconds.toDouble(),
-                      value: _currentPosition.inSeconds
-                          .toDouble()
-                          .clamp(0.0, _totalDuration.inSeconds.toDouble()),
-                      onChanged: (value) {
-                        final newPosition = Duration(seconds: value.round());
-                        Provider.of<ProviderFile>(context, listen: false).audioPlayer.seek(newPosition);
-                      }),
-                ),
-              ),
+                                  data: SliderTheme.of(context).copyWith(
+                                      overlayShape:
+                                          SliderComponentShape.noOverlay),
+                                  child: Container(
+                                    width: 350,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Slider(
+                                        activeColor: BorW
+                                            ? Colors.grey.shade200
+                                            : Colors.grey.shade600,
+                                        inactiveColor: BorW
+                                            ? Colors.grey.shade600
+                                            : Colors.grey.shade300,
+                                        thumbColor: Colors.grey,
+                                        min: 0.0,
+                                        max:
+                                            _totalDuration.inSeconds.toDouble(),
+                                        value: _currentPosition.inSeconds
+                                            .toDouble()
+                                            .clamp(
+                                                0.0,
+                                                _totalDuration.inSeconds
+                                                    .toDouble()),
+                                        onChanged: (value) {
+                                          final newPosition =
+                                              Duration(seconds: value.round());
+                                          Provider.of<ProviderFile>(context,
+                                                  listen: false)
+                                              .audioPlayer
+                                              .seek(newPosition);
+                                        }),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -402,11 +416,14 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                                           : Colors.grey.shade900,
                                     ),
                                   ),
-                                  Text(":", style: TextStyle(
+                                  Text(
+                                    ":",
+                                    style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
                                           : Colors.grey.shade900,
-                                    ),),
+                                    ),
+                                  ),
                                   Text(
                                     _currentPosition.inSeconds.toString(),
                                     style: TextStyle(
@@ -427,11 +444,14 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                                           : Colors.grey.shade900,
                                     ),
                                   ),
-                                  Text(":", style: TextStyle(
+                                  Text(
+                                    ":",
+                                    style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
                                           : Colors.grey.shade900,
-                                    ),),
+                                    ),
+                                  ),
                                   Text(
                                     _totalDuration.inSeconds.toString(),
                                     style: TextStyle(
@@ -467,7 +487,8 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                         ),
                         IconButton(
                           onPressed: () {
-                            Provider.of<ProviderFile>(context, listen: false).PRESONG();
+                            Provider.of<ProviderFile>(context, listen: false)
+                                .PRESONG();
                             d();
                           },
                           icon: Icon(
@@ -484,31 +505,35 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                                 .mute();
                             d();
                           },
-                          icon:  Provider.of<ProviderFile>(context,listen: false).isPlaying 
-                              ? Icon(
-                                  Icons.pause_circle_outline_rounded,
-                                  size: 53,
-                                  color: BorW
-                                      ? Colors.grey.shade200
-                                      : Colors.grey.shade900,
-                                )
-                              : Icon(
-                                  Icons.play_circle_outline_rounded,
-                                  size: 53,
-                                  color: BorW
-                                      ? Colors.grey.shade200
-                                      : Colors.grey.shade900,
-                                ),
+                          icon:
+                              Provider.of<ProviderFile>(context, listen: false)
+                                      .isPlaying
+                                  ? Icon(
+                                      Icons.pause_circle_outline_rounded,
+                                      size: 53,
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    )
+                                  : Icon(
+                                      Icons.play_circle_outline_rounded,
+                                      size: 53,
+                                      color: BorW
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
+                                    ),
                         ),
                         IconButton(
-                          onPressed: ()async {
-
-
-                              List l=  Provider.of<ProviderFile>(context, listen: false).Songss;
-                              int o=  Provider.of<ProviderFile>(context, listen: false).ListIndex;
-                               Provider.of<ProviderFile>(context, listen: false).NEXTSONG();
-                               d();
-                    
+                          onPressed: () async {
+                            List l = Provider.of<ProviderFile>(context,
+                                    listen: false)
+                                .Songss;
+                            int o = Provider.of<ProviderFile>(context,
+                                    listen: false)
+                                .ListIndex;
+                            Provider.of<ProviderFile>(context, listen: false)
+                                .NEXTSONG();
+                            d();
                           },
                           icon: Icon(
                             Icons.skip_next_outlined,
@@ -520,7 +545,6 @@ class _Page2State extends State<Page2>    with SingleTickerProviderStateMixin{
                         ),
                         IconButton(
                           onPressed: () {
-
                             Provider.of<ProviderFile>(context, listen: false)
                                 .playAudio(index.toString());
                           },

@@ -253,7 +253,7 @@ try {
               },
             )
             :
-            Center(child: Text("Empty data"),),
+            Center(child: Text("Go to Favorates"),),
           ),
           // GestureDetector(
           //   onTap: () {
