@@ -22,6 +22,9 @@ class _Page1State extends State<Page1> {
 
   late bool BorW;
   static late bool _IssongPlayed;
+
+  double height=0;
+
   void d() {
 try {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
@@ -202,24 +205,32 @@ try {
                 final audioFile = _audioFiles[index];
                 return ListTile(
                   leading: Container(
-                    margin: EdgeInsets.only(top: 5,bottom: 5),
-                      height: 35,
-                      width: 35,
+                    margin: EdgeInsets.only(top: 7,bottom: 7),
+                      height: 33.5,
+                      width: 33.5,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(5.5),
                           border: Border.all(width: 1, color: Colors.grey)),
-                      alignment: Alignment.center,
-                      child: Image.asset("./images/music-logo-png-2350.png",
-                      // child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl0a4UTw7QS3RHB4_rZ1JUkcjNEre9RjlBWQ&s",
-                          fit: BoxFit.cover,
-                          color: BorW
+                      // alignment: Alignment.center,
+                      // child: Image.asset("./images/threeD.jpeg",
+                      // // child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl0a4UTw7QS3RHB4_rZ1JUkcjNEre9RjlBWQ&s",
+                      //     fit: BoxFit.cover,
+                      //     // color: BorW
+                      //     //     ? Colors.grey.shade500
+                      //     //     : Colors.grey.shade500
+                      //     )
+                      child: ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset("./images/threeD.jpeg",fit: BoxFit.cover,
+                      colorBlendMode: BlendMode.modulate,
+                      color: BorW
                               ? Colors.grey.shade500
-                              : Colors.grey.shade500)),
+                              : Colors.grey.shade500
+                      ),),
+                              ),
                   title: Text(
                     audioFile.uri.pathSegments.last,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15.5,
+                    style: TextStyle(fontSize: 14.3,
                         color:
                             BorW ? Colors.grey.shade200 : Colors.grey.shade800),
                   ),
@@ -246,6 +257,9 @@ try {
                     print(snn[snn.length - 1]);
                     print(
                         "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
+                        setState(() {
+                          height=70;
+                        });
 
                         Navigator.pushNamed(context, "page2" , arguments: INDEX.toString());
                   },
@@ -255,6 +269,39 @@ try {
             :
             Center(child: Text("Go to Favorates"),),
           ),
+
+          // AnimatedContainer(
+          //   duration: Duration(milliseconds: 200), height: height,width: double.infinity,
+          //   margin: EdgeInsets.only(left: 21,right: 21),
+          //   decoration: BoxDecoration(
+          //     color: BorW ? Colors.grey.shade400 : Colors.grey.shade300,
+          //     borderRadius: BorderRadius.circular(10),
+          //     border: Border.all(color: Colors.grey)
+          //   ),
+          //   child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: [
+          //       Container(
+          //           // margin: EdgeInsets.only(top: 5,bottom: 5),
+          //             height: 58,
+          //             width: 56,
+          //             decoration: BoxDecoration(
+          //                 borderRadius: BorderRadius.circular(5.5),
+          //                 border: Border.all(width: 1, color: Colors.grey)),
+          //             child: ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset("./images/threeD.jpeg",fit: BoxFit.cover,
+          //             colorBlendMode: BlendMode.modulate,
+          //             color: BorW
+          //                     ? Colors.grey.shade500
+          //                     : Colors.grey.shade500
+          //             ),),
+          //                     ),
+          //                     Text("song"),
+          //                     Icon(Icons.play_arrow)
+          //     ],
+          //   ),
+          //   )
+
+
+
           // GestureDetector(
           //   onTap: () {
           //     Navigator.pushNamed(context, 'page2',

@@ -19,7 +19,6 @@ class ProviderFile extends ChangeNotifier {
 
   Duration _currentPosition = Duration.zero;
   Duration _totalDuration = Duration.zero;
-
 int ListIndex=0;
   //  bool ppp=false;
     bool isMuted = false;
