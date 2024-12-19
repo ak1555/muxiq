@@ -12,33 +12,31 @@ class Page4 extends StatefulWidget {
 }
 
 class _Page4State extends State<Page4> {
-TextEditingController _username = TextEditingController();
-TextEditingController _bio = TextEditingController();
-var hive = Hive.box("mybox");
+  TextEditingController _username = TextEditingController();
+  TextEditingController _bio = TextEditingController();
+  var hive = Hive.box("mybox");
   late bool BorW;
-   bool uname=false;
-   bool bio=false;
-  String? username ;
+  bool uname = false;
+  bool bio = false;
+  String? username;
   String? Bio;
 
-
-void getusername(){
-  if(hive.get(1)!=null){
-setState(() {
-  username=hive.get(1);
-  uname=true;
-});
+  void getusername() {
+    if (hive.get(1) != null) {
+      setState(() {
+        username = hive.get(1);
+        uname = true;
+      });
+    }
+    if (hive.get(2) != null) {
+      setState(() {
+        Bio = hive.get(2);
+        bio = true;
+      });
+    }
+    print(hive.get(1));
+    print(hive.get(2));
   }
-  if(hive.get(2)!=null){
-    setState(() {
-      Bio = hive.get(2);
-      bio =true;
-    });
-  }
-  print(hive.get(1));
-  print(hive.get(2));
-}
-
 
   void d() {
     BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
@@ -80,7 +78,11 @@ setState(() {
                     Border.all(color: BorW ? Colors.grey.shade50 : Colors.grey),
                 borderRadius: BorderRadius.circular(100),
               ),
-              child: Icon(Icons.person,color: Colors.grey,size: 99,),
+              child: Icon(
+                Icons.person,
+                color: Colors.grey,
+                size: 99,
+              ),
             ),
           ),
           SizedBox(
@@ -89,32 +91,43 @@ setState(() {
           Container(
               width: double.infinity,
               alignment: Alignment.center,
-              child:uname? Text(username!,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
-                ),
-              ):Text(
-                "User Name",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
-                ),
-              )),
-              Container(
+              child: uname
+                  ? Text(
+                      username!,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color:
+                            BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                      ),
+                    )
+                  : Text(
+                      "User Name",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color:
+                            BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                      ),
+                    )),
+          Container(
               width: double.infinity,
               alignment: Alignment.center,
-              child:bio? Text(Bio!,style: TextStyle(
-                 fontSize: 12,
-                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
-              ),)
-              :Text(
-                "Bio",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
-                ),
-              )),
+              child: bio
+                  ? Text(
+                      Bio!,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color:
+                            BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                      ),
+                    )
+                  : Text(
+                      "Bio",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color:
+                            BorW ? Colors.grey.shade200 : Colors.grey.shade800,
+                      ),
+                    )),
           SizedBox(
             height: 35,
           ),
@@ -139,91 +152,116 @@ setState(() {
                             padding: EdgeInsets.only(bottom: 1),
                             alignment: Alignment.bottomCenter),
                         onPressed: () {
-                           showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Container(
-                                height: 200,
-                                width: 250,
-                                child:Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      height: 50,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(left: 10,right: 10),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(15)
-                                      ),
-                                      child: Expanded(child: TextField(
-                                        controller: _username,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,hintText: "Enter your Name"
-                                          ,hintStyle: TextStyle(color: Colors.grey)),
-                                        )),
-                                    ),
-
-                                       Container(
-                                      height: 50,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(left: 10,right: 10),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(15)
-                                      ),
-                                      child: Expanded(child: TextField(
-                                        controller: _bio,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,hintText: "Enter your bio"
-                                          ,hintStyle: TextStyle(color: Colors.grey)),
-                                        )),
-                                    ),
-
-                                  ],
-                                ) ),
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Container(
+                                    height: 200,
+                                    width: 250,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          child: Expanded(
+                                              child: TextField(
+                                            controller: _username,
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: "Enter your Name",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey)),
+                                          )),
+                                        ),
+                                        Container(
+                                          height: 50,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey),
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          child: Expanded(
+                                              child: TextField(
+                                            controller: _bio,
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintText: "Enter your bio",
+                                                hintStyle: TextStyle(
+                                                    color: Colors.grey)),
+                                          )),
+                                        ),
+                                      ],
+                                    )),
                                 actions: [
                                   Container(
-                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                   gradient: LinearGradient(
-              colors: BorW
-                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
-                  : [Colors.grey.shade300, Colors.grey.shade200])
-                                 ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        gradient: LinearGradient(
+                                            colors: BorW
+                                                ? [
+                                                    Colors.black,
+                                                    const Color.fromARGB(
+                                                        255, 66, 66, 66)
+                                                  ]
+                                                : [
+                                                    Colors.grey.shade300,
+                                                    Colors.grey.shade200
+                                                  ])),
                                     child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,shadowColor: Colors.transparent,
-                                      shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                      padding: EdgeInsets.only(left: 35,right: 35,top: 15,bottom: 15),
-                                    ),
-                                    onPressed: () {
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          shadowColor: Colors.transparent,
+                                          shape: BeveledRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          padding: EdgeInsets.only(
+                                              left: 35,
+                                              right: 35,
+                                              top: 15,
+                                              bottom: 15),
+                                        ),
+                                        onPressed: () {
+                                          // setUsername();
 
+                                          if (_username.text == '') {
+                                            print("name null");
+                                          } else {
+                                            hive.put(1, _username.text);
+                                          }
 
-                                    // setUsername();
-
-  if(_username.text==''){
-   print("name null");
-}else{
-
-   hive.put(1, _username.text);
-}
-
-if(_bio.text==''){
-  print("bio null");
-}else{
-  
-      hive.put(2, _bio.text);
-}
-
-
-
-                                     }, child: Text("set",style: TextStyle(
-                                      color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
-                                    fontWeight: FontWeight.bold,
-                                    ),)),
-                                  )],
-                            );
-                          },);
+                                          if (_bio.text == '') {
+                                            print("bio null");
+                                          } else {
+                                            hive.put(2, _bio.text);
+                                          }
+                                        },
+                                        child: Text(
+                                          "set",
+                                          style: TextStyle(
+                                            color: BorW
+                                                ? Colors.grey.shade200
+                                                : Colors.grey.shade800,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                  )
+                                ],
+                              );
+                            },
+                          );
                         },
                         child: Text(
                           "Edit",
@@ -240,85 +278,116 @@ if(_bio.text==''){
                               padding: EdgeInsets.only(top: 1),
                               alignment: Alignment.topCenter),
                           onPressed: () {
-                             showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Container(
-                                height: 200,
-                                width: 250,
-                                child:Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Container(
+                                      height: 200,
+                                      width: 250,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Container(
+                                            height: 50,
+                                            width: double.infinity,
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey),
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: Expanded(
+                                                child: TextField(
+                                              controller: _username,
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "Enter your Name",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey)),
+                                            )),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            width: double.infinity,
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey),
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: Expanded(
+                                                child: TextField(
+                                              controller: _bio,
+                                              decoration: InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText: "Enter your bio",
+                                                  hintStyle: TextStyle(
+                                                      color: Colors.grey)),
+                                            )),
+                                          ),
+                                        ],
+                                      )),
+                                  actions: [
                                     Container(
-                                      height: 50,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(left: 10,right: 10),
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(15)
-                                      ),
-                                      child: Expanded(child: TextField(
-                                        controller: _username,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,hintText: "Enter your Name"
-                                          ,hintStyle: TextStyle(color: Colors.grey)),
-                                        )),
-                                    ),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          gradient: LinearGradient(
+                                              colors: BorW
+                                                  ? [
+                                                      Colors.black,
+                                                      const Color.fromARGB(
+                                                          255, 66, 66, 66)
+                                                    ]
+                                                  : [
+                                                      Colors.grey.shade300,
+                                                      Colors.grey.shade200
+                                                    ])),
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.transparent,
+                                            shadowColor: Colors.transparent,
+                                            shape: BeveledRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            padding: EdgeInsets.only(
+                                                left: 35,
+                                                right: 35,
+                                                top: 15,
+                                                bottom: 15),
+                                          ),
+                                          onPressed: () {
+                                            // setUsername();
+                                            if (_username.text == '') {
+                                              print("name null");
+                                            } else {
+                                              hive.put(1, _username.text);
+                                            }
 
-                                       Container(
-                                      height: 50,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(left: 10,right: 10),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(15)
-                                      ),
-                                      child: Expanded(child: TextField(
-                                        controller: _bio,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,hintText: "Enter your bio"
-                                          ,hintStyle: TextStyle(color: Colors.grey)),
-                                        )),
-                                    ),
-
+                                            if (_bio.text == '') {
+                                              print("bio null");
+                                            } else {
+                                              hive.put(2, _bio.text);
+                                            }
+                                          },
+                                          child: Text(
+                                            "set",
+                                            style: TextStyle(
+                                              color: BorW
+                                                  ? Colors.grey.shade200
+                                                  : Colors.grey.shade800,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                    )
                                   ],
-                                ) ),
-                                actions: [
-                                  Container(
-                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                   gradient: LinearGradient(
-              colors: BorW
-                  ? [Colors.black, const Color.fromARGB(255, 66, 66, 66)]
-                  : [Colors.grey.shade300, Colors.grey.shade200])
-                                 ),
-                                    child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent,shadowColor: Colors.transparent,
-                                      shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                      padding: EdgeInsets.only(left: 35,right: 35,top: 15,bottom: 15),
-                                    ),
-                                    onPressed: () {
-                                    // setUsername();
-  if(_username.text==''){
-   print("name null");
-}else{
-
-   hive.put(1, _username.text);
-}
-
-if(_bio.text==''){
-  print("bio null");
-}else{
-  
-      hive.put(2, _bio.text);
-}
-                                                                    }, child: Text("set",style: TextStyle(
-                                      color: BorW ? Colors.grey.shade200 : Colors.grey.shade800,
-                                    fontWeight: FontWeight.bold,
-                                    ),)),
-                                  )],
+                                );
+                              },
                             );
-                          },);
                           },
                           icon: Icon(
                             Icons.edit_outlined,
@@ -348,7 +417,10 @@ if(_bio.text==''){
                                 .blckandwhte(!t);
                             d();
                             try {
-                              Navigator.pushNamed(context, "main");
+                              // Navigator.pushNamed(context, "main");
+                              // Navigator.pushNamedAndRemoveUntil(context,'main',(route) => false,);
+                              Navigator.pop(context);
+
                             } catch (e) {
                               print(e);
                             }
@@ -404,16 +476,20 @@ if(_bio.text==''){
                             padding: EdgeInsets.only(bottom: 1),
                             alignment: Alignment.bottomCenter),
                         onPressed: () {
-                           showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Container(
-                                height: 150,
-                                width: 250,
-                                
-                                // alignment: Alignment.center,
-                                child: Text("Currently you can't Access this Feature")),
-                            );
-                          },);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Container(
+                                    height: 150,
+                                    width: 250,
+
+                                    // alignment: Alignment.center,
+                                    child: Text(
+                                        "Currently you can't Access this Feature")),
+                              );
+                            },
+                          );
                         },
                         child: Text(
                           "Share",
@@ -430,16 +506,20 @@ if(_bio.text==''){
                               padding: EdgeInsets.only(top: 1),
                               alignment: Alignment.topCenter),
                           onPressed: () {
-                             showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Container(
-                                height: 150,
-                                width: 250,
-                                
-                                // alignment: Alignment.center,
-                                child: Text("Currently you can't Access this Feature")),
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Container(
+                                      height: 150,
+                                      width: 250,
+
+                                      // alignment: Alignment.center,
+                                      child: Text(
+                                          "Currently you can't Access this Feature")),
+                                );
+                              },
                             );
-                          },);
                           },
                           icon: Icon(
                             Icons.switch_access_shortcut_add_outlined,
@@ -454,7 +534,7 @@ if(_bio.text==''){
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(5)),
-                       child: Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
@@ -462,16 +542,20 @@ if(_bio.text==''){
                             padding: EdgeInsets.only(bottom: 1),
                             alignment: Alignment.bottomCenter),
                         onPressed: () {
-                           showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Container(
-                                height: 150,
-                                width: 250,
-                                
-                                // alignment: Alignment.center,
-                                child: Text("Currently you can't Access this Feature")),
-                            );
-                          },);
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Container(
+                                    height: 150,
+                                    width: 250,
+
+                                    // alignment: Alignment.center,
+                                    child: Text(
+                                        "Currently you can't Access this Feature")),
+                              );
+                            },
+                          );
                         },
                         child: Text(
                           "Set us",
@@ -488,15 +572,19 @@ if(_bio.text==''){
                               padding: EdgeInsets.only(top: 1),
                               alignment: Alignment.topCenter),
                           onPressed: () {
-                             showDialog(context: context, builder: (context) {
-                            return AlertDialog(
-                              title: Container(
-                                height: 150,
-                                width: 250,
-                                // alignment: Alignment.center,
-                                child: Text("Currently you can't Access this Feature")),
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Container(
+                                      height: 150,
+                                      width: 250,
+                                      // alignment: Alignment.center,
+                                      child: Text(
+                                          "Currently you can't Access this Feature")),
+                                );
+                              },
                             );
-                          },);
                           },
                           icon: Icon(
                             Icons.settings_phone_sharp,
@@ -504,8 +592,6 @@ if(_bio.text==''){
                             color: BorW
                                 ? Colors.grey.shade200
                                 : Colors.grey.shade800,
-
-                        
                           )),
                     ],
                   ),

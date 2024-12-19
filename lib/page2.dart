@@ -1,12 +1,12 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:muxiq/Provider/providerfile.dart';
-import 'package:muxiq/main.dart';
-import 'package:muxiq/page1.dart';
+// import 'package:muxiq/main.dart';
+// import 'package:muxiq/page1.dart';
 import 'package:provider/provider.dart';
 import 'package:audio_waveforms/audio_waveforms.dart';
 
@@ -37,7 +37,6 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
   List Songnamelist = [];
 
   void d() {
-    // try {
     setState(() {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
       _issongPlayed =
@@ -49,9 +48,6 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
       print(ls);
     });
     print(BorW);
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   Duration _currentPosition = Duration.zero;
@@ -219,7 +215,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(150),
                                     child: Image.asset(
-                                      "./images/music-logo-png-2350.png",
+                                      "./images/back.png",
                                       fit: BoxFit.cover,
                                       color: Colors.grey.shade300,
                                       colorBlendMode: BlendMode.modulate,

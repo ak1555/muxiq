@@ -15,7 +15,7 @@ class Page3 extends StatefulWidget {
 }
 
 class _Page3State extends State<Page3> {
-  List ls = [];
+  List ls = [ ];
   late bool BorW;
   var mybox = Hive.box("mybox");
   String? song;
@@ -29,7 +29,9 @@ class _Page3State extends State<Page3> {
 
     print(BorW);
     if (mybox.get(11) != null) {
-      ls = mybox.get(11);
+    setState(() {
+        ls = mybox.get(11);
+    });
       int v = ls.length;
       for (int k = 0; k <= v; k++) {
         try {
@@ -205,7 +207,7 @@ class _Page3State extends State<Page3> {
                                                   color: Colors.grey)),
                                           alignment: Alignment.center,
                                           child: Image.asset(
-                                              "./images/music-logo-png-2350.png",
+                                              "./images/back.png",
                                               fit: BoxFit.cover,
                                               color: BorW
                                                   ? Colors.grey.shade500
@@ -257,11 +259,15 @@ class _Page3State extends State<Page3> {
                                                     color: Colors.grey)
                                               ]),
                                           child: IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                ls.removeAt(index);
+                                                mybox.put(11, ls);
+                                                d();
+                                              },
                                               icon: Icon(
-                                                Icons.more_vert,
-                                                size: 17,
-                                                color: Colors.white,
+                                                Icons.undo_outlined,
+                                                size: 20,
+                                                color: Colors.red,
                                               ))),
                                     ],
                                   ),
@@ -276,11 +282,17 @@ class _Page3State extends State<Page3> {
                   height: 85,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          width: .5,
-                          color: BorW
-                              ? Colors.grey.shade400
-                              : Colors.grey.shade800)),
+                      // border: Border.all(
+                      //     width: .5,
+                      //     color: BorW
+                      //         ? Colors.grey.shade400
+                      //         : Colors.grey.shade800)
+                             border: Border(top: BorderSide( 
+                               width: .3,
+                              color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade800),),
+                              ),
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -296,6 +308,7 @@ class _Page3State extends State<Page3> {
                                     color: BorW
                                         ? Colors.grey.shade200
                                         : Colors.grey.shade800),
+                         
                                 borderRadius: BorderRadius.circular(15)),
                             // padding: EdgeInsets.all(8),
                             // child: Image.asset(
@@ -317,7 +330,7 @@ class _Page3State extends State<Page3> {
                           ),
                           Container(
                               width: 100,
-                              child: Text(
+                              child:Songnamelist.isNotEmpty? Text(
                                 Songnamelist[h].toString(),
                                 // "sss",
                                 overflow: TextOverflow.ellipsis,
@@ -326,7 +339,9 @@ class _Page3State extends State<Page3> {
                                     color: BorW
                                         ? Colors.grey.shade200
                                         : Colors.grey.shade800),
-                              )),
+                              )
+                              : Text(""),
+                              ),
                         ],
                       ),
                       IconButton(

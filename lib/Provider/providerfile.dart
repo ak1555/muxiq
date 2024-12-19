@@ -30,17 +30,6 @@ int ListIndex=0;
  bool _isPlaying = false;
   bool get isPlaying => _isPlaying;
 
-  // int get currentIndex => _currentIndex;
-
-  // void setnames(songname) {
-  //   i = songname;
-  //   notifyListeners();
-  // }
-
-  // void setplayorpause(playpause) {
-  //   LS[1] = playpause;
-  //   notifyListeners();
-  // }
 
   void blckandwhte(bool t) {
     LS[0] = t;

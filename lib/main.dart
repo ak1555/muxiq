@@ -23,7 +23,8 @@ void main()async {
       routes: {
         "main":(context)=>HomePage(),
         'page2':(context)=>Page2(),
-        "fav":(context)=>FavPage2()
+        "fav":(context)=>FavPage2(),
+        // "page1":(context)= 
       },
     )
     )

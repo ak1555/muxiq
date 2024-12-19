@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -23,28 +23,28 @@ class _Page1State extends State<Page1> {
   late bool BorW;
   static late bool _IssongPlayed;
 
-  double height=0;
+  double height = 0;
 
   void d() {
-try {
+    try {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
-    Provider.of<ProviderFile>(context, listen: false).ak();
-    _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
-    song = Provider.of<ProviderFile>(context, listen: false).i;
-    _IssongPlayed = Provider.of<ProviderFile>(context, listen: false).isPlaying;
-    print(_audioFiles);
-    print("isplayedor not====");
-    print(
-        "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(_audioFiles);
-    print(
-        "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    h = Provider.of<ProviderFile>(context, listen: false).ListIndex;
-    Songnamelist = Provider.of<ProviderFile>(context, listen: false).SOngNAme;
-} catch (e) {
-  print(e);
-}
-
+      Provider.of<ProviderFile>(context, listen: false).ak();
+      _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
+      song = Provider.of<ProviderFile>(context, listen: false).i;
+      _IssongPlayed =
+          Provider.of<ProviderFile>(context, listen: false).isPlaying;
+      print(_audioFiles);
+      print("isplayedor not====");
+      print(
+          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      print(_audioFiles);
+      print(
+          "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>AUDIOFIFLES 1 page list<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      h = Provider.of<ProviderFile>(context, listen: false).ListIndex;
+      Songnamelist = Provider.of<ProviderFile>(context, listen: false).SOngNAme;
+    } catch (e) {
+      print(e);
+    }
   }
 
   void dd() {
@@ -189,8 +189,7 @@ try {
               margin: EdgeInsets.only(left: 20, right: 15),
               child: Text(
                 "All Songs",
-                style: TextStyle(
-                    color: BorW ? Colors.grey.shade200 : Colors.grey.shade800),
+                style: TextStyle(color: BorW ? Colors.grey.shade200 : Colors.grey.shade800),
               )),
           SizedBox(
             height: 2,
@@ -199,184 +198,77 @@ try {
           Container(
             height: 400,
             width: double.infinity,
-            child:_audioFiles.isNotEmpty? ListView.builder(
-              itemCount: _audioFiles.length,
-              itemBuilder: (context, index) {
-                final audioFile = _audioFiles[index];
-                return ListTile(
-                  leading: Container(
-                    margin: EdgeInsets.only(top: 7,bottom: 7),
-                      height: 33.5,
-                      width: 33.5,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5.5),
-                          border: Border.all(width: 1, color: Colors.grey)),
-                      // alignment: Alignment.center,
-                      // child: Image.asset("./images/threeD.jpeg",
-                      // // child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl0a4UTw7QS3RHB4_rZ1JUkcjNEre9RjlBWQ&s",
-                      //     fit: BoxFit.cover,
-                      //     // color: BorW
-                      //     //     ? Colors.grey.shade500
-                      //     //     : Colors.grey.shade500
-                      //     )
-                      child: ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset("./images/threeD.jpeg",fit: BoxFit.cover,
-                      colorBlendMode: BlendMode.modulate,
-                      color: BorW
-                              ? Colors.grey.shade500
-                              : Colors.grey.shade500
-                      ),),
-                              ),
-                  title: Text(
-                    audioFile.uri.pathSegments.last,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14.3,
-                        color:
-                            BorW ? Colors.grey.shade200 : Colors.grey.shade800),
+            child: _audioFiles.isNotEmpty
+                ? ListView.builder(
+                    itemCount: _audioFiles.length,
+                    itemBuilder: (context, index) {
+                      final audioFile = _audioFiles[index];
+                      return ListTile(
+                        leading: Container(
+                          margin: EdgeInsets.only(top: 7, bottom: 7),
+                          height: 33.5,
+                          width: 33.5,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.5),
+                              border: Border.all(width: 1, 
+                              color: BorW
+                                    ? Colors.grey.shade500
+                                    : Colors.grey.shade600
+                              )),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.asset("./images/back.png",
+                                fit: BoxFit.fill,
+                                // colorBlendMode: BlendMode.modulate,
+                                color: BorW
+                                    ? Colors.grey.shade500
+                                    : Colors.grey.shade500
+                                    ),
+                          ),
+                        ),
+                        title: Text(
+                          audioFile.uri.pathSegments.last,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 14.3,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800),
+                        ),
+                        onTap: () {
+                          Provider.of<ProviderFile>(context, listen: false)
+                              .ListIndex = index;
+                          Provider.of<ProviderFile>(context, listen: false)
+                              .PLAY();
+                          d();
+                          INDEX = audioFile.path;
+                          setState(() {
+                            _IssongPlayed = true;
+                          });
+                          String sn = _audioFiles[index].toString();
+                          List snn = sn.split('/');
+                          setState(() {
+                            song = snn[snn.length - 1];
+                          });
+                          print("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
+                          print(audioFile);
+                          print(snn[snn.length - 1]);
+                          print("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
+                          setState(() {
+                            height = 70;
+                          });
+
+                          Navigator.pushNamed(context, "page2",
+                              arguments: INDEX.toString());
+                        },
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text("Go for your Favorates"),
                   ),
-                  onTap: () {
-                  //  SnackBar(content: Text("Can't play!"));
-                    Provider.of<ProviderFile>(context, listen: false)
-                        .ListIndex = index;
-                    Provider.of<ProviderFile>(context, listen: false).PLAY();
-                    d();
-                    INDEX = audioFile.path;
-                    setState(() {
-                      _IssongPlayed = true;
-                    });
-                    String sn = _audioFiles[index].toString();
-
-                    List snn = sn.split('/');
-
-                    setState(() {
-                      song = snn[snn.length - 1];
-                    });
-                    print(
-                        "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
-                    print(audioFile);
-                    print(snn[snn.length - 1]);
-                    print(
-                        "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
-                        setState(() {
-                          height=70;
-                        });
-
-                        Navigator.pushNamed(context, "page2" , arguments: INDEX.toString());
-                  },
-                );
-              },
-            )
-            :
-            Center(child: Text("Go to Favorates"),),
           ),
-
-          // AnimatedContainer(
-          //   duration: Duration(milliseconds: 200), height: height,width: double.infinity,
-          //   margin: EdgeInsets.only(left: 21,right: 21),
-          //   decoration: BoxDecoration(
-          //     color: BorW ? Colors.grey.shade400 : Colors.grey.shade300,
-          //     borderRadius: BorderRadius.circular(10),
-          //     border: Border.all(color: Colors.grey)
-          //   ),
-          //   child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: [
-          //       Container(
-          //           // margin: EdgeInsets.only(top: 5,bottom: 5),
-          //             height: 58,
-          //             width: 56,
-          //             decoration: BoxDecoration(
-          //                 borderRadius: BorderRadius.circular(5.5),
-          //                 border: Border.all(width: 1, color: Colors.grey)),
-          //             child: ClipRRect(borderRadius: BorderRadius.circular(5), child: Image.asset("./images/threeD.jpeg",fit: BoxFit.cover,
-          //             colorBlendMode: BlendMode.modulate,
-          //             color: BorW
-          //                     ? Colors.grey.shade500
-          //                     : Colors.grey.shade500
-          //             ),),
-          //                     ),
-          //                     Text("song"),
-          //                     Icon(Icons.play_arrow)
-          //     ],
-          //   ),
-          //   )
-
-
-
-          // GestureDetector(
-          //   onTap: () {
-          //     Navigator.pushNamed(context, 'page2',
-          //         arguments: INDEX.toString());
-          //   },
-          //   child: Container(
-          //     height: 90,
-          //     width: double.infinity,
-          //     decoration: BoxDecoration(
-          //         border: Border.all(
-          //             width: .5,
-          //             color:
-          //                 BorW ? Colors.grey.shade400 : Colors.grey.shade800)),
-          //     padding: EdgeInsets.only(left: 10, right: 10),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Row(
-          //           children: [
-          //             Container(
-          //               height: 80,
-          //               width: 80,
-          //               decoration: BoxDecoration(
-          //                   border: Border.all(
-          //                       width: 1,
-          //                       color: BorW
-          //                           ? Colors.grey.shade200
-          //                           : Colors.grey.shade800),
-          //                   borderRadius: BorderRadius.circular(15)),
-          //               padding: EdgeInsets.all(8),
-          //               child: Image.asset(
-          //                 './images/show2.jpeg',
-          //                 color: BorW
-          //                     ? Colors.grey.shade400
-          //                     : Colors.grey.shade800,
-          //                 fit: BoxFit.contain,
-          //               ),
-          //             ),
-          //             SizedBox(
-          //               width: 15,
-          //             ),
-          //             Container(
-          //                 width: 150,
-          //                 child: Text(
-          //                   Songnamelist[h].toString(),
-          //                   overflow: TextOverflow.ellipsis,
-          //                   maxLines: 2,
-          //                   style: TextStyle(
-          //                       color: BorW
-          //                           ? Colors.grey.shade200
-          //                           : Colors.grey.shade800),
-          //                 )),
-          //           ],
-          //         ),
-          //         IconButton(
-          //             onPressed: () {
-          //               Provider.of<ProviderFile>(context, listen: false)
-          //                   .mute();
-
-          //               dd();
-          //             },
-          //             icon: Provider.of<ProviderFile>(context, listen: false)
-          //                     .isPlaying
-          //                 ? Icon(Icons.pause,
-          //                     color: BorW
-          //                         ? Colors.grey.shade200
-          //                         : Colors.grey.shade800)
-          //                 : Icon(Icons.play_arrow,
-          //                     color: BorW
-          //                         ? Colors.grey.shade200
-          //                         : Colors.grey.shade800))
-          //       ],
-          //     ),
-          //   ),
-          // )
         ],
       ),
     );
