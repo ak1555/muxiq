@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:lottie/lottie.dart';
 import 'package:muxiq/Provider/providerfile.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,9 @@ class _Page1State extends State<Page1> {
   List Songnamelist = [];
 
   late bool BorW;
+  late bool Lion;
+
+  bool _isPlayingorNot= false;
   static late bool _IssongPlayed;
 
   double height = 0;
@@ -28,6 +32,7 @@ class _Page1State extends State<Page1> {
   void d() {
     try {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
+      Lion=Provider.of<ProviderFile>(context,listen: false).Li[0];
       Provider.of<ProviderFile>(context, listen: false).ak();
       _audioFiles = Provider.of<ProviderFile>(context, listen: false).Songss;
       song = Provider.of<ProviderFile>(context, listen: false).i;
@@ -196,7 +201,7 @@ class _Page1State extends State<Page1> {
           ),
           Divider(),
           Container(
-            height: 400,
+            height: 415,
             width: double.infinity,
             child: _audioFiles.isNotEmpty
                 ? ListView.builder(
@@ -234,13 +239,13 @@ class _Page1State extends State<Page1> {
                               fontSize: 14.3,
                               color: BorW
                                   ? Colors.grey.shade200
-                                  : Colors.grey.shade800),
+                                  : Colors.black),
                         ),
                         onTap: () {
                           Provider.of<ProviderFile>(context, listen: false)
                               .ListIndex = index;
                           Provider.of<ProviderFile>(context, listen: false)
-                              .PLAY();
+                              .PLAYNEW();
                           d();
                           INDEX = audioFile.path;
                           setState(() {
@@ -269,6 +274,88 @@ class _Page1State extends State<Page1> {
                     child: Text("Go for your Favorates"),
                   ),
           ),
+          Spacer(),
+            Container(
+                  height: 75,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      // border: Border.all(
+                      //     width: .5,
+                      //     color: BorW
+                      //         ? Colors.grey.shade400
+                      //         : Colors.grey.shade800)
+                             border: Border(top: BorderSide( 
+                               width: .3,
+                              color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade800),),
+                              ),
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  margin: EdgeInsets.only(left: 30, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 55,
+                            width: 55,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade800),
+                         
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Lottie.network(
+                              'https://lottie.host/0e905ffb-b376-44bb-8c4f-7370e20bbdbe/TeO8913cwR.json',
+                              animate: _isPlayingorNot ? false : true,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                              width: 70,
+                              child:Provider.of<ProviderFile>(context,listen: false).Li[1].isNotEmpty  ? Text(
+                                Provider.of<ProviderFile>(context,listen: false).Li[1].toString(),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                    color: BorW
+                                        ? Colors.grey.shade200
+                                        : Colors.grey.shade800),
+                              )
+                              : Text(""),
+                              ),
+                        ],
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            Provider.of<ProviderFile>(context,listen: false).PLAYpre();
+                          },
+                          icon: Icon(Icons.skip_previous_rounded,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800)),
+                      IconButton(onPressed: () {
+                      
+                         Provider.of<ProviderFile>(context,listen: false).togglePlayPause();
+                      }, icon: Lion? Icon(Icons.pause):Icon(Icons.play_arrow)),
+                      IconButton(
+                          onPressed: () {
+                            Provider.of<ProviderFile>(context,listen: false).PLAYNext();
+                          },
+                          icon: Icon(Icons.skip_next_rounded,
+                              color: BorW
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800))
+                    ],
+                  ),
+                ),
         ],
       ),
     );

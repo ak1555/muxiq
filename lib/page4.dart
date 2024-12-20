@@ -417,9 +417,9 @@ class _Page4State extends State<Page4> {
                                 .blckandwhte(!t);
                             d();
                             try {
-                              // Navigator.pushNamed(context, "main");
+                              Navigator.pushNamed(context, "main");
                               // Navigator.pushNamedAndRemoveUntil(context,'main',(route) => false,);
-                              Navigator.pop(context);
+                              // Navigator.pop(context);
 
                             } catch (e) {
                               print(e);

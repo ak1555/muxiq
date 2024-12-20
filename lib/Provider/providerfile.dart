@@ -23,6 +23,7 @@ int ListIndex=0;
   //  bool ppp=false;
     bool isMuted = false;
   List LS = [false];
+  List Li=[false,""];
   int _currentIndex = 0;
   dynamic i;
 // bool? Isplay;
@@ -166,15 +167,12 @@ notifyListeners();
 
 
   void mute()async{
-    if(audioPlayer.volume ==0){
-  await audioPlayer.setVolume(100);
-    await audioPlayer.play();
-  _isPlaying=false;
-    }else{
-        await audioPlayer.stop();
-        await audioPlayer.setVolume(0);
-        _isPlaying=true;
-    }
+  audioPlayer.stop();
+  notifyListeners();
+  }
+
+  void mmuute()async{
+  audioPlayer.play();
   notifyListeners();
   }
 
@@ -221,15 +219,30 @@ void PLAY() async {
     // await audioPlayer.setFilePath(filePath);
     //   audioPlayer.play();
     try {
-     
       String sngnme = Songss[ListIndex!].path;
        print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
       print(sngnme);
        print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
       await audioPlayer.setFilePath(sngnme);
       audioPlayer.play();
+      // _isPlaying=true;
       _isPlaying=true;
-      _isPlaying=true;
+    } on PlayerException catch (e) {
+      print("Error loading file:============================================================================================ $e");
+    }
+    notifyListeners();
+  }
+
+
+  void PAUSE() async {
+    try {
+      String sngnme = Songss[ListIndex!].path;
+       print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      print(sngnme);
+       print("lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      await audioPlayer.setFilePath(sngnme);
+      audioPlayer.pause();
+      _isPlaying=false;
     } on PlayerException catch (e) {
       print("Error loading file:============================================================================================ $e");
     }
@@ -279,9 +292,78 @@ void PRESONG() async {
     } on PlayerException catch (e) {
       print("Error loading file:============================================================================================ $e");
     }
-
     notifyListeners();
   }
+
+
+void PLAYNEW() async {
+  try {
+    String sngnme = Songss[ListIndex!].path;
+    print("Playing: $sngnme");
+    await audioPlayer.setFilePath(sngnme);
+    audioPlayer.play();
+    // _isPlaying = true;
+       List snn = sngnme.split('/');
+
+                    String b = snn[snn.length - 1].toString();
+                    List EDse = b.split('-');
+                   String song = EDse[0];
+                    // SOngNAme.add(song);
+    Li[0]=true;
+    Li[1]=song;
+
+    // Listen for when the song finishes
+    audioPlayer.playerStateStream.listen((playerState) {
+      if (playerState.processingState == ProcessingState.completed) {
+        PLAYNext(); // Call playNext() when the song finishes
+      }
+    });
+  } on PlayerException catch (e) {
+    print("Error loading file: $e");
+  }
+  notifyListeners();
+}
+
+void PLAYNext() async {
+  if (ListIndex != null && ListIndex! < Songss.length - 1) {
+    ListIndex = ListIndex! + 1; // Move to the next song
+    PLAY(); // Play the next song
+  } else {
+    print("End of playlist reached");
+    audioPlayer.stop(); // Optionally stop playback if at the end
+  }
+}
+void PLAYpre() async {
+  if (ListIndex != null && ListIndex! < Songss.length - 1) {
+    ListIndex = ListIndex! - 1; // Move to the next song
+    PLAYNEW(); // Play the next song
+  } else {
+    print("End of playlist reached");
+    audioPlayer.stop(); // Optionally stop playback if at the end
+  }
+}
+
+
+
+void togglePlayPause() async {
+  bool _isPlaying=Li[0];
+  if (_isPlaying) {
+    // Pause playback
+    await audioPlayer.pause();
+    Li[0] = false;
+    print("Playback paused");
+  } else {
+    // Resume playback
+    await audioPlayer.play();
+    Li[0] = true;
+    print("Playback resumed");
+  }
+  notifyListeners();
+}
+
+
+
+
 
 
   @override

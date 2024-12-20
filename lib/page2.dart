@@ -25,6 +25,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
   bool t = true;
   String? index;
   List ls = [];
+  bool pp=true;
 
   var mybox = Hive.box('mybox');
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -32,15 +33,15 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
   double sliderValue = 0;
   Duration max = const Duration(seconds: 120);
   late bool BorW;
-  late bool _issongPlayed;
+  // late bool _issongPlayed;
   int h = 0;
   List Songnamelist = [];
 
   void d() {
     setState(() {
       BorW = Provider.of<ProviderFile>(context, listen: false).LS[0];
-      _issongPlayed =
-          Provider.of<ProviderFile>(context, listen: false).isPlaying;
+
+          
       ls = Provider.of<ProviderFile>(context, listen: false).Songss;
       h = Provider.of<ProviderFile>(context, listen: false).ListIndex;
       Songnamelist = Provider.of<ProviderFile>(context, listen: false).SOngNAme;
@@ -58,6 +59,9 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     d();
+   setState(() {
+      pp=true;
+   });
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     Future.delayed(
@@ -93,7 +97,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
         backgroundColor:
             BorW ? const Color.fromARGB(255, 48, 47, 47) : Colors.grey.shade100,
         title: Text(
-          "PLAYLIST",
+          "           PLAYLIST",
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 19,
@@ -198,8 +202,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                           alignment: Alignment.center,
                           child: Stack(
                             children: [
-                              Provider.of<ProviderFile>(context, listen: false)
-                                      .isPlaying
+                              pp
                                   ? Lottie.asset('./lottie/ll.json')
                                   : Container(),
                               Positioned(
@@ -405,7 +408,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                               Row(
                                 children: [
                                   Text(
-                                    _currentPosition.inMinutes.toString(),
+                                    _currentPosition.inMinutes.remainder(60).toString().padLeft(2,"0"),
                                     style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
@@ -421,7 +424,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   Text(
-                                    _currentPosition.inSeconds.toString(),
+                                    _currentPosition.inSeconds.remainder(60).toString().padLeft(2,"0"),
                                     style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
@@ -433,7 +436,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                               Row(
                                 children: [
                                   Text(
-                                    _totalDuration.inMinutes.toString(),
+                                    _totalDuration.inMinutes.remainder(60).toString().padLeft(2,"0"),
                                     style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
@@ -449,7 +452,7 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   Text(
-                                    _totalDuration.inSeconds.toString(),
+                                    _totalDuration.inSeconds.remainder(60).toString().padLeft(2,"0"),
                                     style: TextStyle(
                                       color: BorW
                                           ? Colors.grey.shade200
@@ -495,30 +498,14 @@ class _Page2State extends State<Page2> with SingleTickerProviderStateMixin {
                                 : Colors.grey.shade900,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Provider.of<ProviderFile>(context, listen: false)
-                                .mute();
-                            d();
-                          },
-                          icon:
-                              Provider.of<ProviderFile>(context, listen: false)
-                                      .isPlaying
-                                  ? Icon(
-                                      Icons.pause_circle_outline_rounded,
-                                      size: 53,
-                                      color: BorW
-                                          ? Colors.grey.shade200
-                                          : Colors.grey.shade900,
-                                    )
-                                  : Icon(
-                                      Icons.play_circle_outline_rounded,
-                                      size: 53,
-                                      color: BorW
-                                          ? Colors.grey.shade200
-                                          : Colors.grey.shade900,
-                                    ),
-                        ),
+                    IconButton(onPressed: (){
+                       setState(() {
+                       pp? Provider.of<ProviderFile>(context, listen: false).mute(): Provider.of<ProviderFile>(context, listen: false).mmuute();
+                         pp?   _controller.forward(): _controller.reverse();
+                          pp=!pp;
+                       });
+                    } ,icon:AnimatedIcon(icon: AnimatedIcons.pause_play,size: 34, progress: _controller )),
+
                         IconButton(
                           onPressed: () async {
                             List l = Provider.of<ProviderFile>(context,

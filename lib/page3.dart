@@ -68,6 +68,19 @@ class _Page3State extends State<Page3> {
 
   Future<void> play() => _audioPlayer.play();
 
+  Future<void> playSpecificSong(int index) async {
+  if (_audioPlayer.sequence != null && index >= 0 && index < _audioPlayer.sequence!.length) {
+    await _audioPlayer.seek(Duration.zero, index: index); // Seek to the specific song
+    await _audioPlayer.play(); // Play the audio
+
+    setState(() {
+      h=index;
+    });
+  } else {
+    print("Invalid index or playlist is not initialized");
+  }
+}
+
   Future<void> pause() => _audioPlayer.pause();
 
   Future<void> next() async {
@@ -168,7 +181,7 @@ class _Page3State extends State<Page3> {
                   color: Colors.grey.shade400,
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 4,
                 ),
                 Expanded(
                     child: ls.isNotEmpty
@@ -186,14 +199,19 @@ class _Page3State extends State<Page3> {
                               List kkkk = c.split(',');
                               singer = kkkk[0];
 
-                              return GestureDetector(
+                              return ListTile(
                                 onTap: () async {
+                                   Provider.of<ProviderFile>(context,listen: false).mute();
                                   print("ontapped");
-                                  await play();
+                                  await playSpecificSong(index);
+                                 
+                                setState(() {
+                                    _isPlayingorNot=false;
+                                });
                                 },
-                                child: Container(
+                                title: Container(
                                   margin: EdgeInsets.only(
-                                      left: 13, right: 12, top: 11, bottom: 11),
+                                      left: 13, right: 12,  bottom:5),
                                   child: Row(
                                     children: [
                                       Container(
@@ -243,8 +261,9 @@ class _Page3State extends State<Page3> {
                                         ),
                                       )),
                                       Container(
-                                          height: 35,
-                                          width: 35,
+                                          height: 32,
+                                          width: 32,
+                                          padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(
                                               color: BorW
                                                   ? Colors.grey.shade600
@@ -258,17 +277,8 @@ class _Page3State extends State<Page3> {
                                                     offset: Offset(0, 3),
                                                     color: Colors.grey)
                                               ]),
-                                          child: IconButton(
-                                              onPressed: () {
-                                                ls.removeAt(index);
-                                                mybox.put(11, ls);
-                                                d();
-                                              },
-                                              icon: Icon(
-                                                Icons.undo_outlined,
-                                                size: 20,
-                                                color: Colors.red,
-                                              ))),
+                                          child: Image.asset("./images/remove-favourite.png",fit: BoxFit.contain,color: Colors.red.shade900,),
+                                              ),
                                     ],
                                   ),
                                 ),
